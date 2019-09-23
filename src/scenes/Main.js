@@ -33,14 +33,10 @@ export default class BootScene extends Phaser.Scene {
     //this.physics.world.setBounds(0, 900, 1920, 210);
 
     // add background
-    const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.7).setDepth(1);
-    const stove = this.add.sprite(1920 / 2, 400 , 'stove');
+    const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.8).setDepth(1);
+    const stove = this.add.sprite(1920 / 2, 375 , 'stove');
     const board = this.add.sprite(1920 / 2, 900 , 'board');
     this.enemyGroup;
-
-    // add enemy
-    //this.enemy = this.physics.add.sprite(0, 200, 'alien').setDepth(1);
-    //this.enemy.setCollideWorldBounds(true);
 
     // add multiple enemies
     this.enemyGroup = this.physics.add.group({
@@ -66,6 +62,7 @@ export default class BootScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1
     });
+
     this.anims.create({
       key: "idle",
       frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 0 }),
@@ -74,26 +71,22 @@ export default class BootScene extends Phaser.Scene {
     });
   }
 
+
   update (time, delta) {
     // Update the scene
 
     // set speed of enemy and assign events
-    var speed = 6;
+    var speed = 2;
+
+    this.enemyGroup.children.iterate(child => {
+      child.x += speed + Phaser.Math.Between(0,3);
+      child.anims.play('walk',true)
+    })
 /*
-    this.enemyGroup[i].x += speed;
-    this.enemyGroup[i].anims.play("walk", true);
-    this.enmeyGroup[i].flipX = false;
+    this.enemyGroup.children.x += speed;
+    this.enemyGroup.children.anims.play("walk", true);
+    this.enmeyGroup.children.flipX = false;
 
-
-
-/*
-    if (this.enemy.x > 1900) {
-      this.enemy.anims.play('idle', true);
-    } else {
-      this.enemy.x += speed;
-      this.enemy.anims.play("walk", true);
-      this.enmey.flipX = false;
-    }
 */
   }
 }

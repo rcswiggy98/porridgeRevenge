@@ -16,6 +16,10 @@ export default class BootScene extends Phaser.Scene {
       frameWidth: 67
     });
 
+    this.load.image('board', "./assets/background/board.png")
+    this.load.image('pot', "./assets/background/pot.png")
+    this.load.image('stove', "./assets/background/stove.png")
+
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
@@ -24,6 +28,14 @@ export default class BootScene extends Phaser.Scene {
   create (data) {
     //Add event listeners
     ChangeScene.addSceneEventListeners(this);
+
+    //set world boundary
+    this.physics.world.setBounds(0, 900, 1920, 210);
+
+    // add background
+    const board = this.add.sprite(1920 / 2, 400 , 'board').setScale(1,0.9);
+    const pot = this.add.sprite(1920 / 2, 715 , 'pot').setScale(0.7).setDepth(1);
+    const stove = this.add.sprite(1920 / 2, 900 , 'stove').setScale(0.6);
 
     // add player
     this.player = this.physics.add.sprite(0, 200, 'alien');
@@ -55,7 +67,7 @@ export default class BootScene extends Phaser.Scene {
     this.player.flipX = false;
 
 
-/** 
+/**
     if (this.player.x > 1900) {
       this.player.anims.play('idle', true);
     } else {

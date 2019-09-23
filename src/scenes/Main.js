@@ -47,8 +47,9 @@ export default class BootScene extends Phaser.Scene {
       key: "alien",
       repeat: 4,
       setXY: {
-        x: 0,
-        y: 800,
+        x: 30,
+        y: 650,
+        stepY:90
       }
     });
 

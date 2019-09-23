@@ -34,12 +34,12 @@ export default class BootScene extends Phaser.Scene {
 
     // add background
     const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.7).setDepth(1);
-    const stove = this.add.sprite(1920 / 2, 500 , 'stove');
+    const stove = this.add.sprite(1920 / 2, 400 , 'stove');
     const board = this.add.sprite(1920 / 2, 900 , 'board');
     this.enemyGroup;
 
     // add enemy
-    this.enemy = this.physics.add.sprite(0, 200, 'alien').setDepth(1);
+    //this.enemy = this.physics.add.sprite(0, 200, 'alien').setDepth(1);
     //this.enemy.setCollideWorldBounds(true);
 
     // add multiple enemies
@@ -48,7 +48,7 @@ export default class BootScene extends Phaser.Scene {
       repeat: 4,
       setXY: {
         x: 0,
-        y: 200,
+        y: 800,
       }
     });
 

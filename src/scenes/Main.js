@@ -133,10 +133,13 @@ export default class BootScene extends Phaser.Scene {
 
   shoot_water() {
     var water_bullet = this.water_bullets.get();
-    water_bullet.setAngle(180);
-    water_bullet
-      .enableBody(true, this.faucet.x, this.faucet.y, true, true)
-      .setVelocityY(-100);
+    // ensure water_bullet is not null
+    if (water_bullet) {
+      water_bullet.setAngle(180);
+      water_bullet
+        .enableBody(true, this.faucet.x, this.faucet.y, true, true)
+        .setVelocityY(-900);
+    }
   }
 
   hit_enemy(projectile, enemy) {

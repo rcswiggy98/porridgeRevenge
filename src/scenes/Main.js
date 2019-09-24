@@ -42,6 +42,7 @@ export default class BootScene extends Phaser.Scene {
     // add faucet
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
     this.faucet.setScale(0.5);
+    this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
 
     // add group for faucet water bullets
     this.water_bullets = this.physics.add.group({
@@ -81,7 +82,15 @@ export default class BootScene extends Phaser.Scene {
     });
   }
   update (time, delta) {
-    // Update the scene
+    // add cursor keys
+    var cursors = this.input.keyboard.createCursorKeys();
+
+    // faucet speed
+    var faucet_speed = 8;
+    // set speed of enemy and assign events
+    var speed = 2;
+    // firing rate for faucet in miliseconds
+    var frate_faucet = 300;
 
     // collision for water bullets
     this.water_bullets.children.each(
@@ -95,29 +104,21 @@ export default class BootScene extends Phaser.Scene {
             this
           );
           if (b.y < 0) {
-            b.setActive(false);
+            b.destroy(); // destroy the bullets so they don't remain in memory
           } else if (b.y > this.cameras.main.height) {
-            b.setActive(false);
+            b.destroy();
           } else if (b.x < 0) {
-            b.setActive(false);
+            b.destroy();
           } else if (b.x > this.cameras.main.width) {
-            b.setActive(false);
+            b.destroy();
           }
         }
       }.bind(this)
     );
 
-    // add cursor keys
-    var cursors = this.input.keyboard.createCursorKeys();
-
-    // faucet speed
-    var faucet_speed = 8;
-    // set speed of enemy and assign events
-    var speed = 2;
-
     this.enemyGroup.children.iterate(child => {
       child.x += speed + Phaser.Math.Between(0,5);
-      child.anims.play('walk',true)
+      child.anims.play('walk', true)
     })
 
     // faucet controls
@@ -127,7 +128,14 @@ export default class BootScene extends Phaser.Scene {
       this.faucet.x += faucet_speed;
     } 
     if (cursors.space.isDown) {
-      this.shoot_water()
+      // get the current timestamp mod 5000 
+      var mod_time = Phaser.Math.Wrap(time, 0, 5000)
+      // we only fire another shot if time > firing rate has elapsed
+      // Phaser.Math.Difference(a,b) = absolute value of a-b
+      if (Phaser.Math.Difference(mod_time,this.faucet_lftime) > frate_faucet) {
+        this.faucet_lftime = mod_time
+        this.shoot_water()
+      }
     }
   }
 

@@ -22,9 +22,9 @@ export default class BootScene extends Phaser.Scene {
     //Add event listeners
     ChangeScene.addSceneEventListeners(this);
 
-    //Create the scene
+    //Create the scene and add text
     var logo = this.add.image(this.centerX, this.centerY, 'logo');
-  }
+    }
 
   update (time, delta) {
     // Update the scene

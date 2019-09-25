@@ -22,8 +22,9 @@ export default class BootScene extends Phaser.Scene {
     //Add event listeners
     ChangeScene.addSceneEventListeners(this);
 
-    //Create the scene
+    //Create the scene and add text
     var logo = this.add.image(this.centerX, this.centerY, 'logo');
+    var text = this.add.text(this.centerX - 20, this.centerY, 'Press 0 to start the game.');
   }
 
   update (time, delta) {

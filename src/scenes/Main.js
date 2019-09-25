@@ -146,7 +146,8 @@ export default class BootScene extends Phaser.Scene {
       water_bullet.setAngle(180);
       water_bullet
         .enableBody(true, this.faucet.x, this.faucet.y, true, true)
-        .setVelocityY(-900);
+        .setVelocityY(-900)
+        .setDepth(1);
     }
   }
 

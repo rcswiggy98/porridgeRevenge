@@ -54,7 +54,7 @@ export default class BootScene extends Phaser.Scene {
     // add knife
     this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife')
     this.knife.setScale(0.5);
-    this.knife_chopping = false;
+    //this.knife_chopping = false;
     this.knife.setOrigin(0.9, 0.75)
 
     // knife chop tween
@@ -125,6 +125,12 @@ export default class BootScene extends Phaser.Scene {
     this.set_proj_collision(this.water_bullets, this.enemyGroup)
 
     this.enemyGroup.children.iterate(child => {
+      child.setInteractive().on(
+        'pointerdown', 
+        function (pointer, localX, localY, event) {
+          child.destroy()
+        }
+      )
       child.x += speed + Phaser.Math.Between(0,5);
       child.anims.play('walk', true)
     })
@@ -151,9 +157,10 @@ export default class BootScene extends Phaser.Scene {
     var Y = pointer.worldY;
     this.knife.x = X
     this.knife.y = Y
-    if (pointer.isDown) {
+    if (pointer.isDown && ~this.tw.isPlaying()) {
       this.tw.play();
-    }
+      this.knife_attack(X, Y)
+    } 
     /** 
     if (pointer.isUp) {
       // follow mouse if user is not clicking AND knife is currently chopping
@@ -182,8 +189,8 @@ export default class BootScene extends Phaser.Scene {
   }
 
   knife_attack(x, y) {
-    // move the knife up and then down
-    this.knife.angle += 1;
+    // kill the rice
+
   }
 
   hit_enemy(projectile, enemy) {

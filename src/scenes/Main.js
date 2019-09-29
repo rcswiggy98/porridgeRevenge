@@ -216,7 +216,7 @@ export default class BootScene extends Phaser.Scene {
         if (p.active) {
           this.physics.add.overlap(
             p,
-            this.enemies,
+            enemies,
             this.hit_enemy,
             null,
             this

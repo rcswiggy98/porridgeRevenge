@@ -1,10 +1,10 @@
 /*global Phaser*/
 import * as ChangeScene from './ChangeScene.js';
-export default class BootScene extends Phaser.Scene {
+
+export default class MainScene extends Phaser.Scene {
   constructor () {
     super('Main');
   }
-
   init (data) {
     // Initialization code goes here
   }
@@ -44,6 +44,9 @@ export default class BootScene extends Phaser.Scene {
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
     this.faucet.setScale(0.5);
     this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
+    this.score = 0;
+    this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
+    this.initialEnemy = 30;
 
     // add group for faucet water bullets
     this.water_bullets = this.physics.add.group({
@@ -62,11 +65,11 @@ export default class BootScene extends Phaser.Scene {
       callbackScope: this,
       repeat: 30
     });
-
-
+    // count to trigger game over scene
+    this.count = this.timer.repeat
 
     // add knife
-    this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife')
+    this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
     this.knife.setScale(0.5);
     //this.knife_chopping = false;
     this.knife.setOrigin(0.9, 0.75)
@@ -80,7 +83,6 @@ export default class BootScene extends Phaser.Scene {
       repeat: 2,
       yoyo: true
     });
-
 
     // add animations to enemy
     this.anims.create({
@@ -97,6 +99,7 @@ export default class BootScene extends Phaser.Scene {
       repeat: -1
     });
   }
+
   update (time, delta) {
     // add cursor keys
     var keys = this.input.keyboard.createCursorKeys();
@@ -112,13 +115,18 @@ export default class BootScene extends Phaser.Scene {
 
     // touch/mouse listening
     var pointer = this.input.activePointer;
-
     // faucet speed
     var faucet_speed = 8;
     // set speed of enemy and assign events
     var speed = 2;
     // firing rate for faucet in miliseconds
     var frate_faucet = 300;
+
+    //Game over
+    if (this.count == 3 && this.score <200) {
+      this.scene.start('GameOverScene', {score:this.score});
+      return;
+    }
 
     // collision for water bullets
     this.set_proj_collision(this.water_bullets, this.rice)
@@ -127,7 +135,7 @@ export default class BootScene extends Phaser.Scene {
       child.setInteractive().on(
         'pointerdown',
         function (pointer, localX, localY, event) {
-          child.destroy()
+          child.disableBody(true, true);
         }
       )
       // child.x += speed + Phaser.Math.Between(0,5);
@@ -158,7 +166,7 @@ export default class BootScene extends Phaser.Scene {
     this.knife.y = Y
     if (pointer.isDown && ~this.tw.isPlaying()) {
       this.tw.play();
-      this.knife_attack(X, Y)
+      this.knife_attack(this.rice,this.knife)
     }
     // /**
     // if (pointer.isUp) {
@@ -175,6 +183,7 @@ export default class BootScene extends Phaser.Scene {
     // */
   }
 
+  // generate water bullets
   shoot_water() {
     var water_bullet = this.water_bullets.get();
     // ensure water_bullet is not null
@@ -187,16 +196,40 @@ export default class BootScene extends Phaser.Scene {
     }
   }
 
-  knife_attack(x, y) {
+  // check if there is a knife hit
+  knife_attack(enemy,knife) {
     // kill the rice
-
+    enemy.children.each(
+      function (q) {
+        if (q.active) {
+          this.physics.add.overlap(
+            q,
+            this.knife,
+            this.knife_hit,
+            null,
+            this
+          );
+        }
+      }.bind(this)
+    );
   }
 
+  //hit function for knife
+  knife_hit(enemy){
+    enemy.disableBody(true,true)
+    this.score += 10;
+    this.scoreText.setText("Score: " + this.score);
+  }
+
+  //hit function for water bullets
   hit_enemy(projectile, enemy) {
     enemy.disableBody(true, true);
     projectile.disableBody(true, true);
+    this.score += 10;
+    this.scoreText.setText("Score: " + this.score);
   }
 
+  // generate rice enemies
   shoot_rice() {
     var rice_single = this.rice.get();
     // ensure water_bullet is not null
@@ -207,6 +240,7 @@ export default class BootScene extends Phaser.Scene {
         .setVelocityX(300)
         .setDepth(1);
     }
+    this.count -= 1
   }
 
   // general function to handle families of projectiles and collisions

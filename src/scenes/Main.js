@@ -51,6 +51,20 @@ export default class BootScene extends Phaser.Scene {
       maxSize: 30
     });
 
+    this.rice = this.physics.add.group({
+      defaultKey: "rice",
+      maxSize: 30
+    });
+
+    this.timer = this.time.addEvent({
+      delay: 500,
+      callback: this.shoot_rice,
+      callbackScope: this,
+      repeat: 30
+    });
+
+
+
     // add knife
     this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife')
     this.knife.setScale(0.5);
@@ -67,21 +81,6 @@ export default class BootScene extends Phaser.Scene {
       yoyo: true
     });
 
-    // add multiple enemies
-    this.enemyGroup = this.physics.add.group({
-      key: "rice",
-      repeat: 4,
-      setXY: {
-        x: 30,
-        y: 650,
-        stepY:90
-      }
-    });
-    // Create multiple stars
-    this.enemyGroup.children.iterate(function(child) {
-      child.setScale(0.5);
-      //child.setCollideWorldBounds(true);
-    });
 
     // add animations to enemy
     this.anims.create({
@@ -109,11 +108,11 @@ export default class BootScene extends Phaser.Scene {
       left: 'A',
       right: 'D',
       space: 'SPACE'
-    });  
+    });
 
     // touch/mouse listening
     var pointer = this.input.activePointer;
-  
+
     // faucet speed
     var faucet_speed = 8;
     // set speed of enemy and assign events
@@ -122,17 +121,17 @@ export default class BootScene extends Phaser.Scene {
     var frate_faucet = 300;
 
     // collision for water bullets
-    this.set_proj_collision(this.water_bullets, this.enemyGroup)
+    this.set_proj_collision(this.water_bullets, this.rice)
 
-    this.enemyGroup.children.iterate(child => {
+    this.rice.children.iterate(child => {
       child.setInteractive().on(
-        'pointerdown', 
+        'pointerdown',
         function (pointer, localX, localY, event) {
           child.destroy()
         }
       )
-      child.x += speed + Phaser.Math.Between(0,5);
-      child.anims.play('walk', true)
+      // child.x += speed + Phaser.Math.Between(0,5);
+      // child.anims.play('walk', true)
     })
 
     // faucet controls
@@ -140,9 +139,9 @@ export default class BootScene extends Phaser.Scene {
       this.faucet.x -= faucet_speed;
     } else if (keys.right.isDown) {
       this.faucet.x += faucet_speed;
-    } 
+    }
     if (keys.space.isDown) {
-      // get the current timestamp mod 5000 
+      // get the current timestamp mod 5000
       var mod_time = Phaser.Math.Wrap(time, 0, 5000)
       // we only fire another shot if time > firing rate has elapsed
       // Phaser.Math.Difference(a,b) = absolute value of a-b
@@ -160,20 +159,20 @@ export default class BootScene extends Phaser.Scene {
     if (pointer.isDown && ~this.tw.isPlaying()) {
       this.tw.play();
       this.knife_attack(X, Y)
-    } 
-    /** 
-    if (pointer.isUp) {
-      // follow mouse if user is not clicking AND knife is currently chopping
-      this.knife.setXY(X, Y)
-    } else if (pointer.isDown && ~(this.knife_chopping)) {
-      // chop if mouse clicked
-      this.knife_chopping = true;
-      this.knife_attack(X, Y)
-    } else if (pointer.isDown && this.knife_chopping) {
-      // continue the motion of the knife
-      this.knife_attack(X,Y)
     }
-    */
+    // /**
+    // if (pointer.isUp) {
+    //   // follow mouse if user is not clicking AND knife is currently chopping
+    //   this.knife.setXY(X, Y)
+    // } else if (pointer.isDown && ~(this.knife_chopping)) {
+    //   // chop if mouse clicked
+    //   this.knife_chopping = true;
+    //   this.knife_attack(X, Y)
+    // } else if (pointer.isDown && this.knife_chopping) {
+    //   // continue the motion of the knife
+    //   this.knife_attack(X,Y)
+    // }
+    // */
   }
 
   shoot_water() {
@@ -198,6 +197,18 @@ export default class BootScene extends Phaser.Scene {
     projectile.disableBody(true, true);
   }
 
+  shoot_rice() {
+    var rice_single = this.rice.get();
+    // ensure water_bullet is not null
+    if (rice_single) {
+      rice_single
+        .enableBody(true, 30 + Math.random(), 700 + Math.random(), true, true)
+        .setScale(0.5)
+        .setVelocityX(300)
+        .setDepth(1);
+    }
+  }
+
   // general function to handle families of projectiles and collisions
   set_proj_collision (proj_group, enemies) {
     proj_group.children.each(
@@ -211,7 +222,7 @@ export default class BootScene extends Phaser.Scene {
             this
           );
           if (p.y < 0) {
-            p.destroy(); 
+            p.destroy();
           } else if (p.y > this.cameras.main.height) {
             p.destroy();
           } else if (p.x < 0) {

@@ -21,6 +21,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('stove', "./assets/background/stove.png");
     this.load.image('faucet', "./assets/player/faucet.png");
     this.load.image('water_bullet', "./assets/player/waterdrop.png");
+    this.load.image('knife', "./assets/player/knife.png");
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
@@ -48,6 +49,22 @@ export default class BootScene extends Phaser.Scene {
     this.water_bullets = this.physics.add.group({
       defaultKey: "water_bullet",
       maxSize: 30
+    });
+
+    // add knife
+    this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife')
+    this.knife.setScale(0.5);
+    this.knife_chopping = false;
+    this.knife.setOrigin(0.9, 0.75)
+
+    // knife chop tween
+    this.tw = this.tweens.add({
+      targets: this.knife,
+      angle: { from: 0, to: 90 },
+      ease: 'Linear',
+      duration: 100,
+      repeat: 2,
+      yoyo: true
     });
 
     // add multiple enemies
@@ -83,8 +100,20 @@ export default class BootScene extends Phaser.Scene {
   }
   update (time, delta) {
     // add cursor keys
-    var cursors = this.input.keyboard.createCursorKeys();
+    var keys = this.input.keyboard.createCursorKeys();
 
+    // enable 'WASD, space' to control faucet
+    var keys = this.input.keyboard.addKeys({
+      up: 'W',
+      down: 'S',
+      left: 'A',
+      right: 'D',
+      space: 'SPACE'
+    });  
+
+    // touch/mouse listening
+    var pointer = this.input.activePointer;
+  
     // faucet speed
     var faucet_speed = 8;
     // set speed of enemy and assign events
@@ -93,28 +122,7 @@ export default class BootScene extends Phaser.Scene {
     var frate_faucet = 300;
 
     // collision for water bullets
-    this.water_bullets.children.each(
-      function (b) {
-        if (b.active) {
-          this.physics.add.overlap(
-            b,
-            this.enemyGroup,
-            this.hit_enemy,
-            null,
-            this
-          );
-          if (b.y < 0) {
-            b.destroy(); // destroy the bullets so they don't remain in memory
-          } else if (b.y > this.cameras.main.height) {
-            b.destroy();
-          } else if (b.x < 0) {
-            b.destroy();
-          } else if (b.x > this.cameras.main.width) {
-            b.destroy();
-          }
-        }
-      }.bind(this)
-    );
+    this.set_proj_collision(this.water_bullets, this.enemyGroup)
 
     this.enemyGroup.children.iterate(child => {
       child.x += speed + Phaser.Math.Between(0,5);
@@ -122,12 +130,12 @@ export default class BootScene extends Phaser.Scene {
     })
 
     // faucet controls
-    if (cursors.left.isDown) {
+    if (keys.left.isDown) {
       this.faucet.x -= faucet_speed;
-    } else if (cursors.right.isDown) {
+    } else if (keys.right.isDown) {
       this.faucet.x += faucet_speed;
     } 
-    if (cursors.space.isDown) {
+    if (keys.space.isDown) {
       // get the current timestamp mod 5000 
       var mod_time = Phaser.Math.Wrap(time, 0, 5000)
       // we only fire another shot if time > firing rate has elapsed
@@ -137,6 +145,28 @@ export default class BootScene extends Phaser.Scene {
         this.shoot_water()
       }
     }
+
+    // knife controls
+    var X = pointer.worldX;
+    var Y = pointer.worldY;
+    this.knife.x = X
+    this.knife.y = Y
+    if (pointer.isDown) {
+      this.tw.play();
+    }
+    /** 
+    if (pointer.isUp) {
+      // follow mouse if user is not clicking AND knife is currently chopping
+      this.knife.setXY(X, Y)
+    } else if (pointer.isDown && ~(this.knife_chopping)) {
+      // chop if mouse clicked
+      this.knife_chopping = true;
+      this.knife_attack(X, Y)
+    } else if (pointer.isDown && this.knife_chopping) {
+      // continue the motion of the knife
+      this.knife_attack(X,Y)
+    }
+    */
   }
 
   shoot_water() {
@@ -151,9 +181,40 @@ export default class BootScene extends Phaser.Scene {
     }
   }
 
+  knife_attack(x, y) {
+    // move the knife up and then down
+    this.knife.angle += 1;
+  }
+
   hit_enemy(projectile, enemy) {
     enemy.disableBody(true, true);
     projectile.disableBody(true, true);
+  }
+
+  // general function to handle families of projectiles and collisions
+  set_proj_collision (proj_group, enemies) {
+    proj_group.children.each(
+      function (p) {
+        if (p.active) {
+          this.physics.add.overlap(
+            p,
+            this.enemies,
+            this.hit_enemy,
+            null,
+            this
+          );
+          if (p.y < 0) {
+            p.destroy(); 
+          } else if (p.y > this.cameras.main.height) {
+            p.destroy();
+          } else if (p.x < 0) {
+            p.destroy();
+          } else if (p.x > this.cameras.main.width) {
+            p.destroy();
+          }
+        }
+      }.bind(this)
+    );
   }
 
 }

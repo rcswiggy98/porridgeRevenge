@@ -80,7 +80,7 @@ export default class MainScene extends Phaser.Scene {
       angle: { from: 0, to: 90 },
       ease: 'Linear',
       duration: 100,
-      repeat: 2,
+      repeat: 1,
       yoyo: true
     });
 
@@ -124,19 +124,23 @@ export default class MainScene extends Phaser.Scene {
 
     //Game over
     if (this.count == 3 && this.score <200) {
-      this.scene.start('GameOverScene', {score:this.score});
+      this.scene.start('GameOverScene', {score: this.score});
       return;
     }
 
     // collision for water bullets
     this.set_proj_collision(this.water_bullets, this.rice)
 
+    // collision handling for knife
     this.rice.children.iterate(child => {
       child.setInteractive().on(
         'pointerdown',
         function (pointer, localX, localY, event) {
+          //this.physics.collide(child,this.knife,hit_enemy)
           child.disableBody(true, true);
-        }
+          child.destroy();
+          this.increment_score(10);
+        }.bind(this)
       )
       // child.x += speed + Phaser.Math.Between(0,5);
       // child.anims.play('walk', true)
@@ -166,21 +170,7 @@ export default class MainScene extends Phaser.Scene {
     this.knife.y = Y
     if (pointer.isDown && ~this.tw.isPlaying()) {
       this.tw.play();
-      this.knife_attack(this.rice,this.knife)
     }
-    // /**
-    // if (pointer.isUp) {
-    //   // follow mouse if user is not clicking AND knife is currently chopping
-    //   this.knife.setXY(X, Y)
-    // } else if (pointer.isDown && ~(this.knife_chopping)) {
-    //   // chop if mouse clicked
-    //   this.knife_chopping = true;
-    //   this.knife_attack(X, Y)
-    // } else if (pointer.isDown && this.knife_chopping) {
-    //   // continue the motion of the knife
-    //   this.knife_attack(X,Y)
-    // }
-    // */
   }
 
   // generate water bullets
@@ -196,51 +186,36 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
-  // check if there is a knife hit
-  knife_attack(enemy,knife) {
-    // kill the rice
-    enemy.children.each(
-      function (q) {
-        if (q.active) {
-          this.physics.add.overlap(
-            q,
-            this.knife,
-            this.knife_hit,
-            null,
-            this
-          );
-        }
-      }.bind(this)
-    );
+  // increments score by given amount
+  increment_score(amount) {
+      this.score += amount;
+      this.scoreText.setText("Score: " + this.score)
   }
 
-  //hit function for knife
-  knife_hit(enemy){
-    enemy.disableBody(true,true)
-    this.score += 10;
-    this.scoreText.setText("Score: " + this.score);
+  // hit function for knife; 'knife' param required.
+  knife_enemy(enemy, knife) {
+    enemy.disableBody(true, true);
+    this.increment_score(10);
   }
 
-  //hit function for water bullets
+  // hit function for water
   hit_enemy(projectile, enemy) {
     enemy.disableBody(true, true);
     projectile.disableBody(true, true);
-    this.score += 10;
-    this.scoreText.setText("Score: " + this.score);
+    this.increment_score(10);
   }
 
   // generate rice enemies
   shoot_rice() {
     var rice_single = this.rice.get();
-    // ensure water_bullet is not null
     if (rice_single) {
       rice_single
-        .enableBody(true, 30 + Math.random(), 700 + Math.random(), true, true)
+        .enableBody(true, 30+Math.random(), 700+100*Math.random()*this.get_random_sign(), true, true)
         .setScale(0.5)
         .setVelocityX(300)
         .setDepth(1);
+      this.count -= 1;
     }
-    this.count -= 1
   }
 
   // general function to handle families of projectiles and collisions
@@ -269,4 +244,12 @@ export default class MainScene extends Phaser.Scene {
     );
   }
 
+  // returns either -1 or +1 at random with equal probability
+  get_random_sign() {
+    if (Math.random() <= 0.5) {
+      return 1;
+    } else {
+      return -1;
+    }
+  }
 }

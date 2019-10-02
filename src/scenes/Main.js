@@ -26,6 +26,11 @@ export default class MainScene extends Phaser.Scene {
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
+
+    // 1.1 load sounds in both formats mp3 and ogg
+    this.load.audio("background", ["assets/sounds/background.mp3"]);
+    this.load.audio("chop", ["assets/sounds/chop.mp3"]);
+    this.load.audio("water", ["assets/sounds/water.mp3"]);
   }
 
   create (data) {
@@ -47,6 +52,23 @@ export default class MainScene extends Phaser.Scene {
     this.score = 0;
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
     this.initialEnemy = 30;
+
+    // create music
+    this.background = this.sound.add("background");
+    this.chop = this.sound.add("chop");
+    this.water = this.sound.add("water");
+
+    // create background music
+    var musicConfig = {
+      mute: false,
+      volume: 1,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0
+    }
+    this.background.play(musicConfig);
 
     // add group for faucet water bullets
     this.water_bullets = this.physics.add.group({
@@ -170,6 +192,7 @@ export default class MainScene extends Phaser.Scene {
     this.knife.y = Y
     if (pointer.isDown && ~this.tw.isPlaying()) {
       this.tw.play();
+      this.chop.play();
     }
   }
 
@@ -183,6 +206,7 @@ export default class MainScene extends Phaser.Scene {
         .enableBody(true, this.faucet.x, this.faucet.y, true, true)
         .setVelocityY(-900)
         .setDepth(1);
+      this.water.play();
     }
   }
 

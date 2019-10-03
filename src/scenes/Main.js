@@ -87,7 +87,7 @@ export default class MainScene extends Phaser.Scene {
 
     // delay the enemies
     this.timer = this.time.addEvent({
-      delay: 500,
+      delay: 1000,
       callback: this.shoot_rice,
       callbackScope: this,
       repeat: 30
@@ -151,7 +151,7 @@ export default class MainScene extends Phaser.Scene {
     var frate_faucet = 300;
 
     //Game over
-    if (this.count == 3 && this.score <200) {
+    if (this.count == 3 && this.score <10) {
       this.scene.start('GameOverScene', {score: this.score});
       return;
     }
@@ -165,6 +165,8 @@ export default class MainScene extends Phaser.Scene {
         'pointerdown',
         function (pointer, localX, localY, event) {
           //this.physics.collide(child,this.knife,hit_enemy)
+          this.array[0].rice += 1
+          console.log(this.array[0].rice)
           child.disableBody(true, true);
           child.destroy();
           this.increment_score(10);
@@ -225,8 +227,6 @@ export default class MainScene extends Phaser.Scene {
   // hit function for knife; 'knife' param required.
   knife_enemy(enemy, knife) {
     enemy.disableBody(true, true);
-    this.array[0].rice += 1
-    console.log(this.array[0].rice)
     this.increment_score(10);
   }
 

@@ -169,6 +169,7 @@ export default class MainScene extends Phaser.Scene {
           child.destroy();
           this.increment_score(10);
           this.increment_count();
+          this.rice_in_pot();
         }.bind(this)
       )
       // child.x += speed + Phaser.Math.Between(0,5);
@@ -235,6 +236,7 @@ export default class MainScene extends Phaser.Scene {
     projectile.disableBody(true, true);
     this.increment_score(10);
     this.increment_count();
+    this.rice_in_pot();
   }
 
   // generate rice enemies
@@ -248,6 +250,16 @@ export default class MainScene extends Phaser.Scene {
         .setDepth(1);
       this.count -= 1;
     }
+  }
+
+  rice_in_pot() {
+    var rice_single = this.rice.get();
+    if (rice_single) {
+      rice_single
+        .enableBody(true, 1920/2 + 50*Math.random()*this.get_random_sign(), 300+30*Math.random()*this.get_random_sign(), true, true)
+        .setScale(0.25)
+        .setDepth(1);
+    } 
   }
 
   // general function to handle families of projectiles and collisions

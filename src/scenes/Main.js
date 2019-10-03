@@ -165,11 +165,10 @@ export default class MainScene extends Phaser.Scene {
         'pointerdown',
         function (pointer, localX, localY, event) {
           //this.physics.collide(child,this.knife,hit_enemy)
-          this.array[0].rice += 1
-          console.log(this.array[0].rice)
           child.disableBody(true, true);
           child.destroy();
           this.increment_score(10);
+          this.increment_count();
         }.bind(this)
       )
       // child.x += speed + Phaser.Math.Between(0,5);
@@ -224,19 +223,18 @@ export default class MainScene extends Phaser.Scene {
       this.scoreText.setText("Score: " + this.score)
   }
 
-  // hit function for knife; 'knife' param required.
-  knife_enemy(enemy, knife) {
-    enemy.disableBody(true, true);
-    this.increment_score(10);
+  // increments count of rice by given amount
+  increment_count(){
+    this.array[0].rice += 1;
+    console.log(this.array[0].rice);
   }
 
   // hit function for water
   hit_enemy(projectile, enemy) {
     enemy.disableBody(true, true);
-    this.array[0].rice += 1
-    console.log(this.array[0].rice)
     projectile.disableBody(true, true);
     this.increment_score(10);
+    this.increment_count();
   }
 
   // generate rice enemies

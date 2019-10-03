@@ -53,7 +53,11 @@ export default class MainScene extends Phaser.Scene {
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
     this.initialEnemy = 30;
 
-    // create music
+    // create a array
+    this.array = [{'rice': 0},{'egg': 0}]
+    // console.log(this.array[1].egg)
+
+    // create sound effect
     this.background = this.sound.add("background");
     this.chop = this.sound.add("chop");
     this.water = this.sound.add("water");
@@ -81,12 +85,14 @@ export default class MainScene extends Phaser.Scene {
       maxSize: 30
     });
 
+    // delay the enemies
     this.timer = this.time.addEvent({
       delay: 500,
       callback: this.shoot_rice,
       callbackScope: this,
       repeat: 30
     });
+
     // count to trigger game over scene
     this.count = this.timer.repeat
 
@@ -219,12 +225,16 @@ export default class MainScene extends Phaser.Scene {
   // hit function for knife; 'knife' param required.
   knife_enemy(enemy, knife) {
     enemy.disableBody(true, true);
+    this.array[0].rice += 1
+    console.log(this.array[0].rice)
     this.increment_score(10);
   }
 
   // hit function for water
   hit_enemy(projectile, enemy) {
     enemy.disableBody(true, true);
+    this.array[0].rice += 1
+    console.log(this.array[0].rice)
     projectile.disableBody(true, true);
     this.increment_score(10);
   }

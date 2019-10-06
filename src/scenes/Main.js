@@ -22,6 +22,7 @@ export default class MainScene extends Phaser.Scene {
     this.load.image('faucet', "./assets/player/faucet.png");
     this.load.image('water_bullet', "./assets/player/waterdrop.png");
     this.load.image('knife', "./assets/player/knife.png");
+    this.load.image('rice_dead', "./assets/enemy/rice.png")
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
@@ -84,6 +85,11 @@ export default class MainScene extends Phaser.Scene {
       defaultKey: "rice",
       maxSize: 30
     });
+    // does creating 'dead' version of rice lead to performance drop?
+    this.rice_dead = this.physics.add.group({
+      defaultKey: "rice_dead",
+      maxSize: 30
+    })
 
     // delay the enemies
     this.timer = this.time.addEvent({
@@ -256,10 +262,10 @@ export default class MainScene extends Phaser.Scene {
   }
 
   rice_in_pot() {
-    var rice_single = this.rice.get();
+    var rice_single = this.rice_dead.get();
     if (rice_single) {
       rice_single
-        .enableBody(true, 1920/2 + 50*Math.random()*this.get_random_sign(), 300+30*Math.random()*this.get_random_sign(), true, true)
+        .enableBody(true, 1920/2+300*Math.random()*this.get_random_sign(), 300+50*Math.random()*this.get_random_sign(), true, true)
         .setScale(0.25)
         .setDepth(1);
     }

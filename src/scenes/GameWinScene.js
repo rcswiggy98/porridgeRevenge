@@ -13,6 +13,9 @@ export default class GameWinScene extends Phaser.Scene {
   preload () {
     // Preload assets
     this.load.image('win', './assets/UI/win.png');
+    this.load.image('star1', './assets/UI/star1.png');
+    this.load.image('star2', './assets/UI/star2.png');
+    this.load.image('star3', './assets/UI/star3.png');
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
@@ -25,9 +28,15 @@ export default class GameWinScene extends Phaser.Scene {
 
     //Create the scene and add text
     var logo = this.add.image(this.centerX, this.centerY, 'win');
-    var text = this.add.text(this.centerX-200, this.centerY +220, 'Your Score is: ' + this.score,{ fontSize: '32px' });
 
+    if (this.score >= 270){
+      this.add.image(this.centerX, this.centerY+200, 'star3').setScale(0.7)
+    } else if (this.score >= 210){
+      this.add.image(this.centerX, this.centerY+200, 'star2').setScale(0.7)
+    } else{
+      this.add.image(this.centerX, this.centerY+200, 'star1').setScale(0.7)
     }
+  }
 
   update (time, delta) {
     // Update the scene

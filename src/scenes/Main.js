@@ -55,7 +55,7 @@ export default class MainScene extends Phaser.Scene {
     this.initialEnemy = 30;
 
     // create a array
-    this.array = [{'rice': 0},{'egg': 0}]
+    this.array = [{'rice': 0}, {'egg': 0}]
     // console.log(this.array[1].egg)
 
     // create sound effect
@@ -169,21 +169,32 @@ export default class MainScene extends Phaser.Scene {
     this.set_proj_collision(this.water_bullets, this.rice)
 
     // collision handling for knife
-    this.rice.children.iterate(child => {
-      child.setInteractive().on(
-        'pointerdown',
-        function (pointer, localX, localY, event) {
-          //this.physics.collide(child,this.knife,hit_enemy)
+    this.rice.children.iterate(function(child) {
+      // make sure child is not null, i.e. hasn't spawned yet
+      if (pointer.isDown && ~this.tw.isPlaying() && child) {
+        if (this.physics.world.overlap(child, this.knife)) {
           child.disableBody(true, true);
           child.destroy();
           this.increment_score(10);
           this.increment_count();
-          this.rice_in_pot();
-        }.bind(this)
-      )
-      // child.x += speed + Phaser.Math.Between(0,5);
-      // child.anims.play('walk', true)
-    })
+          this.rice_in_pot()
+        }
+      }
+    }, this);
+    // child.setInteractive().on(
+    //   'pointerdown',
+    //   function (pointer, localX, localY, event) {
+    //     if (this.knife.hitTest()) {
+    //       child.disableBody(true, true);
+    //       child.destroy();
+    //       this.increment_score(10);
+    //       this.increment_count();
+    //       this.rice_in_pot();
+    //     }
+    //   }.bind(this)
+    //)
+    // child.x += speed + Phaser.Math.Between(0,5);
+    // child.anims.play('walk', true)
 
     // faucet controls
     if (keys.left.isDown) {
@@ -247,6 +258,10 @@ export default class MainScene extends Phaser.Scene {
     this.increment_count();
     this.rice_in_pot();
   }
+
+  // hit function for knife
+
+  
 
   // generate rice enemies
   shoot_rice() {

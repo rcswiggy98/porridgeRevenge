@@ -11,7 +11,7 @@ export default class MainScene extends Phaser.Scene {
 
   preload () {
     // Preload assets
-    this.load.spritesheet("rice", "./assets/enemy/rice.png", {
+    this.load.spritesheet("rice", "./assets/enemy/riceS.png", {
       frameHeight: 233,
       frameWidth: 103
     });
@@ -121,14 +121,14 @@ export default class MainScene extends Phaser.Scene {
     // add animations to enemy
     this.anims.create({
       key: "walk",
-      frames: this.anims.generateFrameNumbers("rice", { start: 0, end: 0 }),
+      frames: this.anims.generateFrameNumbers("riceS", { start: 0, end: 6 }),
       frameRate: 10,
       repeat: -1
     });
 
     this.anims.create({
       key: "idle",
-      frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 0 }),
+      frames: this.anims.generateFrameNumbers("rice", { start: 0, end: 0 }),
       frameRate: 10,
       repeat: -1
     });
@@ -265,8 +265,8 @@ export default class MainScene extends Phaser.Scene {
     var rice_single = this.rice_dead.get();
     if (rice_single) {
       rice_single
-        .enableBody(true, 1920/2+300*Math.random()*this.get_random_sign(), 300+50*Math.random()*this.get_random_sign(), true, true)
-        .setScale(0.25)
+        .enableBody(true, 1920/2+200*Math.random()*this.get_random_sign(), 250+70*Math.random()*this.get_random_sign(), true, true)
+        .setScale(0.3)
         .setDepth(1);
     }
   }

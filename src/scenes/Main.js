@@ -151,8 +151,11 @@ export default class MainScene extends Phaser.Scene {
     var frate_faucet = 300;
 
     //Game over
-    if (this.count == 3 && this.score <10) {
+    if (this.count == 0 && this.array[0].rice <10) {
       this.scene.start('GameOverScene', {score: this.score});
+      return;
+    } else if (this.count == 0 && this.array[0].rice >10){
+      this.scene.start('GameWinScene', {score: this.score});
       return;
     }
 
@@ -259,7 +262,7 @@ export default class MainScene extends Phaser.Scene {
         .enableBody(true, 1920/2 + 50*Math.random()*this.get_random_sign(), 300+30*Math.random()*this.get_random_sign(), true, true)
         .setScale(0.25)
         .setDepth(1);
-    } 
+    }
   }
 
   // general function to handle families of projectiles and collisions

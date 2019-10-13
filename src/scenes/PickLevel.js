@@ -15,6 +15,7 @@ export default class PickLevel extends Phaser.Scene {
     this.load.image('soup1', './assets/UI/soup1.png');
     this.load.image('soup2', './assets/UI/soup2.png');
 
+
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
@@ -27,6 +28,19 @@ export default class PickLevel extends Phaser.Scene {
   create (data) {
     //Add event listeners
     ChangeScene.addSceneEventListeners(this);
+
+    //add music
+    this.background = this.sound.add("background");
+    var musicConfig = {
+      mute: false,
+      volume: 1,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0
+    }
+    this.background.play(musicConfig);
 
     //Create the scene and add text
     var background = this.add.image(this.centerX, this.centerY, 'pick');

@@ -36,6 +36,13 @@ export default class Level2 extends Phaser.Scene {
       frameWidth: 232
     })
 
+    this.load.spritesheet("fire", "./assets/background/fire.png", {
+      frameHeight: 235,
+      frameWidth: 713
+    });
+
+    this.load.image('clickboard1', "./assets/background/clickboard.png");
+    this.load.image('clickboard2', "./assets/background/clickboard.png");
     this.load.image('board', "./assets/background/board.png");
     this.load.image('pot', "./assets/background/pot.png");
     this.load.image('stove', "./assets/background/stove.png");
@@ -62,21 +69,27 @@ export default class Level2 extends Phaser.Scene {
     this.physics.world.setBounds(0, 900, 1920, 210);
 
     // add background
-    const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.8).setDepth(1);
+
     const stove = this.add.sprite(1920 / 2, 375 , 'stove');
     const board = this.add.sprite(1920 / 2, 900 , 'board');
+    const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
+    const clickboard2 = this.add.sprite(1920 * 5 / 6, 325 , 'clickboard2').setScale(1.1).setDepth(1);
+    const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.8).setDepth(1);
+    this.fire = this.add.sprite(1920 / 2, 500, 'fire').setScale(0.8).setDepth(1);
 
     // add faucet
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
     this.faucet.setScale(0.5);
     this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
-    
+
     this.initialEnemy = 30;
 
     // scoring
     this.score = 0;
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
-
+    this.riceText = this.add.text(1400, 150, 'rice: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.eggText = this.add.text(1400, 200, 'egg: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.tText = this.add.text(125, 150, "Use 'A' and 'D' to\ncontrol the faucet\nUse 'SPACE' to shoot\nUse mouse to control\nthe knife\nClick to chop", { fontSize: '32px', fill: '#000000' }).setDepth(1);
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed
     this.deadEnemies = {
@@ -210,6 +223,13 @@ export default class Level2 extends Phaser.Scene {
       frameRate: 10,
       repeat: -1
     })
+    this.anims.create({
+      key: "fire",
+      frames: this.anims.generateFrameNumbers("fire", { start: 0, end: 1 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
     // *********end enemy stuff*************
 
     // count to trigger game over scene
@@ -232,6 +252,7 @@ export default class Level2 extends Phaser.Scene {
   }
 
   update (time, delta) {
+    this.fire.anims.play("fire", true);
     // add cursor keys
     var keys = this.input.keyboard.createCursorKeys();
 
@@ -332,9 +353,11 @@ export default class Level2 extends Phaser.Scene {
     this.scoreText.setText("Score: " + this.score)
   }
 
-  // increments count of given enemy type 
+  // increments count of given enemy type
   increment_count(type) {
     this.deadEnemies[type] += 1;
+    this.riceText.setText("rice: " + this.deadEnemies['rice'] + "/27")
+    this.eggText.setText("egg: " + this.deadEnemies['egg'] + "/27")
   }
 
   // water hit function for rice

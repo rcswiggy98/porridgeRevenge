@@ -121,7 +121,7 @@ export default class Level2 extends Phaser.Scene {
       loop: true,
       delay: 0
     }
-    this.background.play(musicConfig);
+    //this.background.play(musicConfig);
 
     // add group for faucet water bullets
     this.water_bullets = this.physics.add.group({

@@ -16,12 +16,19 @@ export default class Level1Scene extends Phaser.Scene {
       frameWidth: 103
     });
 
+    this.load.spritesheet("fire", "./assets/background/fire.png", {
+      frameHeight: 235,
+      frameWidth: 713
+    });
+
+    this.load.image('clickboard1', "./assets/background/clickboard.png");
+    this.load.image('clickboard2', "./assets/background/clickboard.png");
     this.load.image('board', "./assets/background/board.png");
     this.load.image('pot', "./assets/background/pot.png");
     this.load.image('stove', "./assets/background/stove.png");
     this.load.image('faucet', "./assets/player/faucet.png");
     this.load.image('water_bullet', "./assets/player/waterdrop.png");
-    this.load.image('knife', "./assets/player/knife.png");
+    // this.load.image('knife', "./assets/player/knife.png");
     this.load.image('rice_dead', "./assets/enemy/rice.png")
 
     // Declare variables for center of the scene
@@ -42,9 +49,13 @@ export default class Level1Scene extends Phaser.Scene {
     this.physics.world.setBounds(0, 900, 1920, 210);
 
     // add background
-    const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.8).setDepth(1);
+
     const stove = this.add.sprite(1920 / 2, 375 , 'stove');
     const board = this.add.sprite(1920 / 2, 900 , 'board');
+    const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
+    const clickboard2 = this.add.sprite(1920 * 5 / 6, 325 , 'clickboard2').setScale(1.1).setDepth(1);
+    const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.8).setDepth(1);
+    this.fire = this.add.sprite(1920 / 2, 500, 'fire').setScale(0.8).setDepth(1);
 
     // add faucet
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
@@ -52,6 +63,8 @@ export default class Level1Scene extends Phaser.Scene {
     this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
     this.score = 0;
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
+    this.riceText = this.add.text(1400, 150, 'rice: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.tText = this.add.text(125, 150, "Use 'A' and 'D' to\ncontrol the faucet\nUse 'SPACE' to shoot", { fontSize: '32px', fill: '#000000' }).setDepth(1);
     this.initialEnemy = 30;
 
     // create a array
@@ -60,7 +73,7 @@ export default class Level1Scene extends Phaser.Scene {
 
     // create sound effect
     this.background = this.sound.add("background");
-    this.chop = this.sound.add("chop");
+    // this.chop = this.sound.add("chop");
     this.water = this.sound.add("water");
 
     // create background music
@@ -103,20 +116,20 @@ export default class Level1Scene extends Phaser.Scene {
     this.count = this.timer.repeat
 
     // add knife
-    this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
-    this.knife.setScale(0.5);
-    //this.knife_chopping = false;
-    this.knife.setOrigin(0.9, 0.75)
-
-    // knife chop tween
-    this.tw = this.tweens.add({
-      targets: this.knife,
-      angle: { from: 0, to: 90 },
-      ease: 'Linear',
-      duration: 100,
-      repeat: 1,
-      yoyo: true
-    });
+    // this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
+    // this.knife.setScale(0.5);
+    // //this.knife_chopping = false;
+    // this.knife.setOrigin(0.9, 0.75)
+    //
+    // // knife chop tween
+    // this.tw = this.tweens.add({
+    //   targets: this.knife,
+    //   angle: { from: 0, to: 90 },
+    //   ease: 'Linear',
+    //   duration: 100,
+    //   repeat: 1,
+    //   yoyo: true
+    // });
 
     // add animations to enemy
     this.anims.create({
@@ -127,14 +140,15 @@ export default class Level1Scene extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: "idle",
-      frames: this.anims.generateFrameNumbers("rice", { start: 0, end: 0 }),
+      key: "fire",
+      frames: this.anims.generateFrameNumbers("fire", { start: 0, end: 1 }),
       frameRate: 10,
       repeat: -1
     });
   }
 
   update (time, delta) {
+    this.fire.anims.play("fire", true);
     // add cursor keys
     var keys = this.input.keyboard.createCursorKeys();
 
@@ -202,15 +216,15 @@ export default class Level1Scene extends Phaser.Scene {
       }
     }
 
-    // knife controls
-    var X = pointer.worldX;
-    var Y = pointer.worldY;
-    this.knife.x = X
-    this.knife.y = Y
-    if (pointer.isDown && ~this.tw.isPlaying()) {
-      this.tw.play();
-      this.chop.play();
-    }
+  //   // knife controls
+  //   var X = pointer.worldX;
+  //   var Y = pointer.worldY;
+  //   this.knife.x = X
+  //   this.knife.y = Y
+  //   if (pointer.isDown && ~this.tw.isPlaying()) {
+  //     this.tw.play();
+  //     this.chop.play();
+  //   }
   }
 
   // generate water bullets
@@ -237,6 +251,7 @@ export default class Level1Scene extends Phaser.Scene {
   increment_count(){
     this.array[0].rice += 1;
     console.log(this.array[0].rice);
+    this.riceText.setText("rice: " + this.array[0].rice + "/27")
   }
 
   // hit function for water

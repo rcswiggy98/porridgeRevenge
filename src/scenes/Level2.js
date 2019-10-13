@@ -259,19 +259,6 @@ export default class Level2 extends Phaser.Scene {
     this.set_proj_collision_egg_b(this.water_bullets, this.egg_bottom)
     this.set_proj_collision_egg_t(this.water_bullets, this.egg_top)
 
-    // collision handling for knife
-    this.rice.children.iterate(function(child) {
-      // make sure child is not null, i.e. hasn't spawned yet
-      if (pointer.isDown && ~this.tw.isPlaying() && child) {
-        if (this.physics.world.overlap(child, this.knife)) {
-          child.disableBody(true, true);
-          child.destroy();
-          this.increment_score(10);
-          this.increment_count('rice');
-          this.rice_in_pot()
-        }
-      }
-    }, this);
     this.egg.children.iterate(function(child) {
       // make sure child is not null, i.e. hasn't spawned yet
       if (pointer.isDown && ~this.tw.isPlaying() && child) {

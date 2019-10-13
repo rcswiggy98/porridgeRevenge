@@ -30,11 +30,16 @@ export default class PickLevel extends Phaser.Scene {
 
     //Create the scene and add text
     var background = this.add.image(this.centerX, this.centerY, 'pick');
-    var level1 = this.add.image(this.centerX-200, this.centerY+200, 'soup1').setInteractive();
-  //   level1.on("pointerup",funtion(){
-  //     this.scene.start("Level1");
-  //   }, this
-  // );
+    var level1 = this.add.image(this.centerX-300, this.centerY+200, 'soup1').setScale(0.75).setInteractive();
+    level1.on("pointerup",function(){
+      this.scene.start("Level1");
+    }, this
+  );
+    var level2 = this.add.image(this.centerX+300, this.centerY+200, 'soup2').setScale(0.75).setInteractive();
+    level2.on("pointerup",function(){
+      this.scene.start("Level2");
+    }, this
+  );
   }
 
   update (time, delta) {

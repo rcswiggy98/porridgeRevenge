@@ -1,8 +1,8 @@
 /*global Phaser*/
 import * as ChangeScene from './ChangeScene.js';
-export default class ChooseLevelScene extends Phaser.Scene {
+export default class PickLevel extends Phaser.Scene {
   constructor () {
-    super('ChooseLevel');
+    super('PickLevel');
   }
 
   init (data) {
@@ -11,7 +11,7 @@ export default class ChooseLevelScene extends Phaser.Scene {
 
   preload () {
     // Preload assets
-    this.load.image('level', './assets/UI/level.png');
+    this.load.image('pick', './assets/UI/level.png');
     this.load.image('soup1', './assets/UI/soup1.png');
     this.load.image('soup2', './assets/UI/soup2.png');
 
@@ -21,6 +21,7 @@ export default class ChooseLevelScene extends Phaser.Scene {
 
     // 1.1 load sounds in both formats mp3 and ogg
     this.load.audio("background", ["assets/sounds/background.mp3"]);
+
   }
 
   create (data) {
@@ -28,10 +29,13 @@ export default class ChooseLevelScene extends Phaser.Scene {
     ChangeScene.addSceneEventListeners(this);
 
     //Create the scene and add text
-    var background = this.add.image(this.centerX, this.centerY, 'level');
-
-
-    }
+    var background = this.add.image(this.centerX, this.centerY, 'pick');
+    var level1 = this.add.image(this.centerX-200, this.centerY+200, 'soup1').setInteractive();
+  //   level1.on("pointerup",funtion(){
+  //     this.scene.start("Level1");
+  //   }, this
+  // );
+  }
 
   update (time, delta) {
     // Update the scene

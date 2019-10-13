@@ -1,9 +1,9 @@
 /*global Phaser*/
 import * as ChangeScene from './ChangeScene.js';
 
-export default class Level2 extends Phaser.Scene {
+export default class MainScene extends Phaser.Scene {
   constructor () {
-    super('Level2');
+    super('Main2');
   }
   init (data) {
     // Initialization code goes here
@@ -15,23 +15,15 @@ export default class Level2 extends Phaser.Scene {
       frameHeight: 233,
       frameWidth: 103
     });
-    this.load.spritesheet("egg", "./assets/enemy/pEggWhole.png", {
+    this.load.spritesheet('egg', "./assets/enemy/pEggHalf.png", {
       frameHeight: 326,
       frameWidth: 250
     });
-    this.load.spritesheet("egg_bottom", "./assets/enemy/pEggBot.png", {
+    this.load.spritesheet('egg_bottom', "./assets/enemy/pEggBot.png", {
       frameHeight: 178,
       frameWidth: 232
     });
-    this.load.spritesheet("egg_top", "./assets/enemy/pEggTop.png", {
-      frameHeight: 209,
-      frameWidth: 232
-    });
-    this.load.spritesheet("egg_bottom_dead", "./assets/enemy/pEggBot.png", {
-      frameHeight: 178,
-      frameWidth: 232
-    });
-    this.load.spritesheet("egg_top_dead", "./assets/enemy/pEggTop.png", {
+    this.load.spritesheet('egg_top', "./assets/enemy/pEggTop.png", {
       frameHeight: 209,
       frameWidth: 232
     })
@@ -43,6 +35,8 @@ export default class Level2 extends Phaser.Scene {
     this.load.image('water_bullet', "./assets/player/waterdrop.png");
     this.load.image('knife', "./assets/player/knife.png");
     this.load.image('rice_dead', "./assets/enemy/rice.png")
+    // no death clone yet for egg, do we need one?
+    // this.load.image('egg_dead', "./assets/enemy")
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
@@ -55,7 +49,7 @@ export default class Level2 extends Phaser.Scene {
   }
 
   create (data) {
-    // Add event listeners
+    // add event listeners
     ChangeScene.addSceneEventListeners(this);
 
     // set world boundary
@@ -70,7 +64,7 @@ export default class Level2 extends Phaser.Scene {
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
     this.faucet.setScale(0.5);
     this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
-    
+
     this.initialEnemy = 30;
 
     // scoring
@@ -93,7 +87,7 @@ export default class Level2 extends Phaser.Scene {
       }
     }
 
-    // create sound effect
+    // add sound effects
     this.background = this.sound.add("background");
     this.chop = this.sound.add("chop");
     this.water = this.sound.add("water");
@@ -126,6 +120,7 @@ export default class Level2 extends Phaser.Scene {
       defaultKey: "rice_dead",
       maxSize: 30
     })
+
     this.egg = this.physics.add.group({
       defaultKey: "egg",
       maxSize: 30
@@ -138,29 +133,22 @@ export default class Level2 extends Phaser.Scene {
       defaultKey: 'egg_bottom',
       maxSize: 30
     })
-    this.egg_top_dead = this.physics.add.group({
-      defaultKey: 'egg_top_dead',
-      maxSize: 30,
-    })
-    this.egg_bottom_dead = this.physics.add.group({
-      defaultKey: 'egg_bottom_dead',
-      maxSize: 30
-    })
 
     // delay the enemies
     this.timer_rice = this.time.addEvent({
-      delay: 2000,
+      delay: 1000,
       callback: this.shoot_rice,
       callbackScope: this,
       repeat: 30
     });
     this.timer_egg = this.time.addEvent({
-      delay: 2200,
+      delay: 900,
       callback: this.shoot_egg,
       callbackScope: this,
       repeat: 15,
-      startAt: -2200
+      startAt: -1000
     })
+
     // add animations to enemy
     this.anims.create({
       key: "walk_rice",
@@ -218,7 +206,6 @@ export default class Level2 extends Phaser.Scene {
     // add knife
     this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
     this.knife.setScale(0.5);
-    //this.knife_chopping = false;
     this.knife.setOrigin(0.9, 0.75)
     // knife chop tween
     this.tw = this.tweens.add({
@@ -254,10 +241,8 @@ export default class Level2 extends Phaser.Scene {
     var frate_faucet = 300;
 
     // collision for water bullets
-    this.set_proj_collision_rice(this.water_bullets, this.rice)
-    // collision for egg group
-    this.set_proj_collision_egg_b(this.water_bullets, this.egg_bottom)
-    this.set_proj_collision_egg_t(this.water_bullets, this.egg_top)
+    this.set_proj_collision(this.water_bullets, this.rice)
+    this.set_proj_collision(this.water_bullets, this.egg)
 
     // collision handling for knife
     this.rice.children.iterate(function(child) {
@@ -282,6 +267,28 @@ export default class Level2 extends Phaser.Scene {
           child.disableBody(true, true);
           child.destroy();
           this.spawn_half_egg(X, Y)
+          this.increment_score(10);
+          this.increment_count('egg');
+        }
+      }
+    }, this);
+    this.egg_top.children.iterate(function(child) {
+      // make sure child is not null, i.e. hasn't spawned yet
+      if (pointer.isDown && ~this.tw.isPlaying() && child) {
+        if (this.physics.world.overlap(child, this.knife)) {
+          child.disableBody(true, true);
+          child.destroy();
+          this.increment_score(10);
+          this.increment_count('egg');
+        }
+      }
+    }, this);
+    this.egg_bottom.children.iterate(function(child) {
+      // make sure child is not null, i.e. hasn't spawned yet
+      if (pointer.isDown && ~this.tw.isPlaying() && child) {
+        if (this.physics.world.overlap(child, this.knife)) {
+          child.disableBody(true, true);
+          child.destroy();
           this.increment_score(10);
           this.increment_count('egg');
         }
@@ -350,30 +357,13 @@ export default class Level2 extends Phaser.Scene {
     this.deadEnemies[type] += 1;
   }
 
-  // water hit function for rice
-  hit_enemy_rice(projectile, enemy) {
+  // hit function for water
+  hit_enemy(projectile, enemy) {
     enemy.disableBody(true, true);
     projectile.disableBody(true, true);
     this.increment_score(10);
-    this.increment_count('rice');
+    this.increment_count();
     this.rice_in_pot();
-  }
-  // water hit function for (chopped) eggs
-  hit_enemy_egg_b(projectile, enemy) {
-    enemy.disableBody(true, true);
-    projectile.disableBody(true, true);
-    this.increment_score(10);
-    this.increment_count('egg');
-    this.egg_in_pot('bottom');
-  }
-
-  // water hit function for (chopped) eggs
-  hit_enemy_egg_t(projectile, enemy) {
-    enemy.disableBody(true, true)
-    projectile.disableBody(true, true);
-    this.increment_score(10);
-    this.increment_count('egg');
-    this.egg_in_pot('top');
   }
 
   // generate rice enemies
@@ -390,20 +380,20 @@ export default class Level2 extends Phaser.Scene {
     }
   }
 
-  // generate egg enemies
+  // generate (whole) egg enemies
   shoot_egg() {
-    var egg_single = this.egg.get();
-    if (egg_single) {
-      egg_single
+    var egg = this.egg.get();
+    if (egg) {
+      egg
         .enableBody(true, 30+Math.random(), 700+100*Math.random()*this.rand_sign(), true, true)
         .setScale(0.75)
-        .setVelocityX(150)
+        .setVelocityX(300)
         .setDepth(1)
         .anims.play('walk_egg',true);
       this.count -= 1;
     }
   }
-
+  
   // spawns 2 cut eggs at the given x,y position
   spawn_half_egg(x, y) {
     var egg1 = this.egg_bottom.get()
@@ -436,87 +426,27 @@ export default class Level2 extends Phaser.Scene {
     }
   }
 
-  egg_in_pot(type) {
-    if (type == 'top') {
-      var egg_single = this.egg_top_dead.get()
-      if (egg_single) {
-        egg_single
-          .enableBody(true, 1920/2+200*Math.random()*this.rand_sign(), 240+70*Math.random()*this.rand_sign(), true, true)
-          .setScale(0.3)
-          .setDepth(1);
-      }
-    } else if (type == 'bottom') {
-      var egg_single = this.egg_bottom_dead.get()
-      if (egg_single) {
-        egg_single
-          .enableBody(true, 1920/2+200*Math.random()*this.rand_sign(), 240+70*Math.random()*this.rand_sign(), true, true)
-          .setScale(0.3)
-          .setDepth(1);
-      }
+  /** 
+  egg_in_pot() {
+    var rice_single = this.rice_dead.get();
+    if (rice_single) {
+      rice_single
+        .enableBody(true, 1920/2+200*Math.random()*this.rand_sign(), 240+70*Math.random()*this.rand_sign(), true, true)
+        .setScale(0.3)
+        .setDepth(1);
     }
   }
+  */
 
-  // rice collision function
-  set_proj_collision_rice (proj_group, enemies) {
+  // general function to handle families of projectiles and collisions
+  set_proj_collision (proj_group, enemies) {
     proj_group.children.each(
       function (p) {
         if (p.active) {
           this.physics.add.overlap(
             p,
             enemies,
-            this.hit_enemy_rice,
-            null,
-            this
-          );
-          if (p.y < 0) {
-            p.destroy();
-          } else if (p.y > this.cameras.main.height) {
-            p.destroy();
-          } else if (p.x < 0) {
-            p.destroy();
-          } else if (p.x > this.cameras.main.width) {
-            p.destroy();
-          }
-        }
-      }.bind(this)
-    );
-  }
-
-  // egg collision function
-  set_proj_collision_egg_b (proj_group, enemies) {
-    proj_group.children.each(
-      function (p) {
-        if (p.active) {
-          this.physics.add.overlap(
-            p,
-            enemies,
-            this.hit_enemy_egg_t,
-            null,
-            this
-          );
-          if (p.y < 0) {
-            p.destroy();
-          } else if (p.y > this.cameras.main.height) {
-            p.destroy();
-          } else if (p.x < 0) {
-            p.destroy();
-          } else if (p.x > this.cameras.main.width) {
-            p.destroy();
-          }
-        }
-      }.bind(this)
-    );
-  }
-
-  // egg collision function
-  set_proj_collision_egg_t (proj_group, enemies) {
-    proj_group.children.each(
-      function (p) {
-        if (p.active) {
-          this.physics.add.overlap(
-            p,
-            enemies,
-            this.hit_enemy_egg_b,
+            this.hit_enemy,
             null,
             this
           );

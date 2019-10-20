@@ -113,7 +113,7 @@ export default class Level1Scene extends Phaser.Scene {
     });
 
     // count to trigger game over scene
-    this.count = this.timer.repeat
+    this.count = 30
 
     // add knife
     // this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
@@ -172,10 +172,10 @@ export default class Level1Scene extends Phaser.Scene {
 
     //Game over
     if (this.count == 0 && this.array[0].rice <15) {
-      this.scene.start('GameOverScene', {score: this.score});
+      this.scene.start('GameOverScene', {rice_score: this.array[0].rice, rice_total: 30});
       return;
     } else if (this.count == 0 && this.array[0].rice >15){
-      this.scene.start('GameWinScene', {score: this.score});
+      this.scene.start('GameWinScene', {rice_score: this.array[0].rice, rice_total: 30});
       return;
     }
 

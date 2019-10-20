@@ -165,7 +165,7 @@ export default class Level2 extends Phaser.Scene {
       delay: 1500,
       callback: this.shoot_rice,
       callbackScope: this,
-      repeat: 30
+      repeat: 50
     });
     this.timer_egg = this.time.addEvent({
       delay: 4000,

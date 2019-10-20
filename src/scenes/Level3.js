@@ -49,6 +49,10 @@ export default class Level3 extends Phaser.Scene {
       frameHeight: 153,
       frameWidth: 152
     });
+    this.load.spritesheet("ham_strip_dead", "./assets/enemy/porkStrip.png", {
+      frameHeight: 153,
+      frameWidth: 152
+    });
 
     this.load.spritesheet("fire", "./assets/background/fire.png", {
       frameHeight: 235,
@@ -166,7 +170,7 @@ export default class Level3 extends Phaser.Scene {
     });
     this.ham = this.physics.add.group({
       defaultKey: 'ham',
-      maxSize: 5,
+      maxSize: 2,
     });
     this.ham_slice = this.physics.add.group({
       defaultKey: 'ham_slice',
@@ -174,6 +178,10 @@ export default class Level3 extends Phaser.Scene {
     });
     this.ham_strip = this.physics.add.group({
       defaultKey: 'ham_strip',
+      maxSize: 80
+    });
+    this.ham_strip_dead = this.physics.add.group({
+      defaultKey: 'ham_strip_dead',
       maxSize: 80
     });
 
@@ -195,7 +203,7 @@ export default class Level3 extends Phaser.Scene {
       delay: 12000,
       callback: this.shoot_ham,
       callbackScope: this,
-      repeat: 3,
+      repeat: 2,
       startAt: -13000
     })
     // add animations to enemy
@@ -337,10 +345,11 @@ export default class Level3 extends Phaser.Scene {
 
     // collision for water bullets
     this.set_proj_collision_rice(this.water_bullets, this.rice)
-    this.set_proj_collision_rice(this.water_bullets, this.ham_strip)
     // collision for egg group
     this.set_proj_collision_egg_b(this.water_bullets, this.egg_bottom)
     this.set_proj_collision_egg_t(this.water_bullets, this.egg_top)
+    // collision for ham group
+    this.set_proj_collision_ham_strip(this.water_bullets, this.ham_strip)
 
     this.egg.children.iterate(function(child) {
       // make sure child is not null, i.e. hasn't spawned yet
@@ -487,6 +496,14 @@ export default class Level3 extends Phaser.Scene {
     this.egg_in_pot('top');
   }
 
+  hit_enemy_ham_strip(projectile, enemy) {
+    enemy.disableBody(true, true)
+    projectile.disableBody(true, true);
+    this.increment_score(10);
+    this.increment_count('ham');
+    this.ham_in_pot();
+  }
+
   // generate rice enemies
   shoot_rice() {
     var rice_single = this.rice.get();
@@ -533,35 +550,11 @@ export default class Level3 extends Phaser.Scene {
   spawn_ham(x, y, type) {
     if (type == 'slice') {
       var h1 = this.ham_slice.get()
-      var h2 = this.ham_slice.get()
-      var h3 = this.ham_slice.get()
-      var h4 = this.ham_slice.get()
-      if (h1 && h2 && h3 && h4) {
-        h1
           .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
           .setScale(0.75)
           .setVelocityX(200)
           .setDepth(1)
           .anims.play('walk_ham_slice', true)
-        h2
-          .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
-          .setScale(0.75)
-          .setVelocityX(200)
-          .setDepth(1)
-          .anims.play('walk_ham_slice', true)
-        h3
-          .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
-          .setScale(0.75)
-          .setVelocityX(200)
-          .setDepth(1)
-          .anims.play('walk_ham_slice', true)
-        h4
-          .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
-          .setScale(0.75)
-          .setVelocityX(200)
-          .setDepth(1)
-          .anims.play('walk_ham_slice', true)
-      }
     } else if (type == 'strip') {
       var h1 = this.ham_strip.get()
       var h2 = this.ham_strip.get()
@@ -648,6 +641,16 @@ export default class Level3 extends Phaser.Scene {
     }
   }
 
+  ham_in_pot() {
+    var ham_single = this.ham_strip_dead.get();
+    if (ham_single) {
+      ham_single
+        .enableBody(true, 1920/2+200*Math.random()*this.rand_sign(), 240+70*Math.random()*this.rand_sign(), true, true)
+        .setScale(0.3)
+        .setDepth(1);
+    }
+  }
+
   // rice collision function
   set_proj_collision_rice (proj_group, enemies) {
     proj_group.children.each(
@@ -725,6 +728,34 @@ export default class Level3 extends Phaser.Scene {
       }.bind(this)
     );
   }
+
+  // egg collision function
+  set_proj_collision_ham_strip (proj_group, enemies) {
+    proj_group.children.each(
+      function (p) {
+        if (p.active) {
+          this.physics.add.overlap(
+            p,
+            enemies,
+            this.hit_enemy_ham_strip,
+            null,
+            this
+          );
+          if (p.y < 0) {
+            p.destroy();
+          } else if (p.y > this.cameras.main.height) {
+            p.destroy();
+          } else if (p.x < 0) {
+            p.destroy();
+          } else if (p.x > this.cameras.main.width) {
+            p.destroy();
+          }
+        }
+      }.bind(this)
+    );
+  }
+
+
 
   // returns either -1 or +1 at random with equal probability
   rand_sign() {

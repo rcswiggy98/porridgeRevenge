@@ -80,7 +80,7 @@ export default class Level3 extends Phaser.Scene {
     ChangeScene.addSceneEventListeners(this);
 
     // set world boundary
-    tthis.physics.world.setBounds(0, 0, 1920, 1080);
+    this.physics.world.setBounds(0, 0, 1920, 1080);
 
     // add background
 

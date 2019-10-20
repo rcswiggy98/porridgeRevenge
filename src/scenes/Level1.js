@@ -46,7 +46,7 @@ export default class Level1Scene extends Phaser.Scene {
     ChangeScene.addSceneEventListeners(this);
 
     //set world boundary
-    this.physics.world.setBounds(0, 900, 1920, 210);
+    this.physics.world.setBounds(0, 0, 1920, 1080);
 
     // add background
 
@@ -60,7 +60,8 @@ export default class Level1Scene extends Phaser.Scene {
     // add faucet
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
     this.faucet.setScale(0.5);
-    this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
+    this.faucet_lftime = 1.0; // last time faucet fired water mod 5000
+    this.faucet.setCollideWorldBounds(true)
     this.score = 0;
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
     this.riceText = this.add.text(1400, 150, 'rice: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);

@@ -80,7 +80,7 @@ export default class Level3 extends Phaser.Scene {
     ChangeScene.addSceneEventListeners(this);
 
     // set world boundary
-    this.physics.world.setBounds(0, 900, 1920, 210);
+    tthis.physics.world.setBounds(0, 0, 1920, 1080);
 
     // add background
 
@@ -103,7 +103,7 @@ export default class Level3 extends Phaser.Scene {
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
     this.riceText = this.add.text(1400, 150, 'rice: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
     this.eggText = this.add.text(1400, 200, 'egg: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
-    this.hamText = this.add.text(1400, 200, 'ham: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.hamText = this.add.text(1400, 250, 'ham: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
     this.tText = this.add.text(125, 150, "Use 'A' and 'D' to\ncontrol the faucet\nUse 'SPACE' to shoot\nUse mouse to control\nthe knife\nClick to chop", { fontSize: '32px', fill: '#000000' }).setDepth(1);
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed

@@ -103,23 +103,13 @@ export default class Level3 extends Phaser.Scene {
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
     this.riceText = this.add.text(1400, 150, 'rice: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
     this.eggText = this.add.text(1400, 200, 'egg: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.hamText = this.add.text(1400, 200, 'ham: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
     this.tText = this.add.text(125, 150, "Use 'A' and 'D' to\ncontrol the faucet\nUse 'SPACE' to shoot\nUse mouse to control\nthe knife\nClick to chop", { fontSize: '32px', fill: '#000000' }).setDepth(1);
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed
-    this.deadEnemies = {
-      'egg': 0,
-      'rice': 0,
-      'ham': 0,
-      '_total': function() {
-        var total = 0
-        for(k in Object.keys(this.deadEnemies)) {
-          if (k != '_total') {
-            total += this.deadEnemies[k]
-          }
-        }
-        return total;
-      }
-    }
+
+    // create a array
+    this.array = [{'rice': 0},{'egg': 0}, {'ham':0}]
 
     // create sound effect
     this.background = this.sound.add("background");
@@ -393,17 +383,19 @@ export default class Level3 extends Phaser.Scene {
           child.destroy();
           this.spawn_ham(X, Y, 'strip')
           //this.increment_score(10);
-          //this.increment_count('egg');
+          //this.increment_count('ham');
         }
       }
     }, this);
 
     // winning condition check
-    if (this.count == 0 && this.deadEnemies['_total']() < 30) {
-      this.scene.start('GameOverScene', {score: this.score});
+    this.total_count = this.array[0].rice + this.array[1].egg + this.array[2].ham
+
+    if (this.count == 0 && this.total_count < 50) {
+      this.scene.start('GameOverScene');
       return;
-    } else if (this.count == 0 && this.deadEnemies['_total']() > 30) {
-      this.scene.start('GameWinScene', {score: this.score});
+    } else if (this.count == 0 && this.total_count >= 50) {
+      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:100});
       return;
     }
 
@@ -457,9 +449,16 @@ export default class Level3 extends Phaser.Scene {
 
   // increments count of given enemy type
   increment_count(type) {
-    this.deadEnemies[type] += 1;
-    this.riceText.setText("rice: " + this.deadEnemies['rice'] + "/27")
-    this.eggText.setText("egg: " + this.deadEnemies['egg'] + "/27")
+    if (type == 'rice'){
+      this.array[0].rice += 1
+    }else if(type == 'egg'){
+      this.array[1].egg += 1
+    } else{
+      this.array[2].ham += 1
+    }
+    this.riceText.setText("rice: " + this.array[0].rice + "/27")
+    this.eggText.setText("egg: " + this.array[1].egg + "/27")
+    this.hamText.setText("ham: " + this.array[2].ham + "/27")
   }
 
   // water hit function for rice
@@ -515,7 +514,7 @@ export default class Level3 extends Phaser.Scene {
       this.count -= 1;
     }
   }
-  
+
   // generate ham enemies
   shoot_ham() {
     var ham_single = this.ham.get();
@@ -550,7 +549,7 @@ export default class Level3 extends Phaser.Scene {
           .setVelocityX(200)
           .setDepth(1)
           .anims.play('walk_ham_slice', true)
-        h3 
+        h3
           .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
           .setScale(0.75)
           .setVelocityX(200)
@@ -581,7 +580,7 @@ export default class Level3 extends Phaser.Scene {
           .setVelocityX(200)
           .setDepth(1)
           .anims.play('walk_ham_strip', true)
-        h3 
+        h3
           .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
           .setScale(0.75)
           .setVelocityX(200)

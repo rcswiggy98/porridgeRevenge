@@ -95,7 +95,7 @@ export default class Level3 extends Phaser.Scene {
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
     this.faucet.setScale(0.5);
     this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
-
+    this.faucet.setCollideWorldBounds(true)
     this.initialEnemy = 30;
 
     // scoring

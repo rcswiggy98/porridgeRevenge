@@ -31,17 +31,17 @@ export default class PickLevel extends Phaser.Scene {
     ChangeScene.addSceneEventListeners(this);
 
     //add music
-    this.background = this.sound.add("background");
-    var musicConfig = {
-      mute: false,
-      volume: 1,
-      rate: 1,
-      detune: 0,
-      seek: 0,
-      loop: true,
-      delay: 0
-    }
-    this.background.play(musicConfig);
+    // this.background = this.sound.add("background");
+    // var musicConfig = {
+    //   mute: false,
+    //   volume: 1,
+    //   rate: 1,
+    //   detune: 0,
+    //   seek: 0,
+    //   loop: true,
+    //   delay: 0
+    // }
+    // this.background.play(musicConfig);
 
     //Create the scene and add text
     var background = this.add.image(this.centerX, this.centerY, 'pick');

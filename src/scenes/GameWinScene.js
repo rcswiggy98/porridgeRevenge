@@ -7,8 +7,8 @@ export default class GameWinScene extends Phaser.Scene {
 
   init (data) {
     // Initialization code goes here
-    this.rice_score = data.rice_score;
-    this.rice_total = data.rice_total;
+    this.total_count = data.total_count;
+    this.enemy_total = data.enemy_total;
   }
 
   preload () {
@@ -31,12 +31,12 @@ export default class GameWinScene extends Phaser.Scene {
     var logo = this.add.image(this.centerX, this.centerY, 'win');
     var text = this.add.text(this.centerX-400, this.centerY+300, "Press 0 to main menu", {fontSize:60})
 
-    if (this.rice_score >= 0.9* this.rice_total){
-      this.add.image(this.centerX, this.centerY+200, 'star3').setScale(0.7)
-    } else if (this.rice_score >= 0.7* this.rice_total){
-      this.add.image(this.centerX, this.centerY+200, 'star2').setScale(0.7)
+    if (this.total_count >= 0.9* this.enemy_total){
+      this.add.image(this.centerX, this.centerY+150, 'star3').setScale(0.7)
+    } else if (this.total_count >= 0.7* this.enemy_total){
+      this.add.image(this.centerX, this.centerY+150, 'star2').setScale(0.7)
     } else{
-      this.add.image(this.centerX, this.centerY+200, 'star1').setScale(0.7)
+      this.add.image(this.centerX, this.centerY+150, 'star1').setScale(0.7)
     }
   }
 

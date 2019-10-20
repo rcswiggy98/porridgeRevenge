@@ -92,19 +92,9 @@ export default class Level2 extends Phaser.Scene {
     this.tText = this.add.text(125, 150, "Use 'A' and 'D' to\ncontrol the faucet\nUse 'SPACE' to shoot\nUse mouse to control\nthe knife\nClick to chop", { fontSize: '32px', fill: '#000000' }).setDepth(1);
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed
-    this.deadEnemies = {
-      'egg': 0,
-      'rice': 0,
-      '_total': function() {
-        var total = 0
-        for(k in this.deadEnemies) {
-          if (k != '_total') {
-            total += this.deadEnemies[k]
-          }
-        }
-        return total;
-      }
-    }
+
+    // create a array
+    this.array = [{'rice': 0},{'egg': 0}]
 
     // create sound effect
     this.background = this.sound.add("background");
@@ -132,12 +122,12 @@ export default class Level2 extends Phaser.Scene {
     // ************enemies**************
     this.rice = this.physics.add.group({
       defaultKey: "rice",
-      maxSize: 30
+      maxSize: 50
     });
     // does creating 'dead' version of rice lead to performance drop?
     this.rice_dead = this.physics.add.group({
       defaultKey: "rice_dead",
-      maxSize: 30
+      maxSize: 50
     })
     this.egg = this.physics.add.group({
       defaultKey: "egg",
@@ -297,11 +287,13 @@ export default class Level2 extends Phaser.Scene {
     }, this);
 
     // winning condition check
-    if (this.count == 0 && this.deadEnemies['_total']() < 30) {
-      this.scene.start('GameOverScene', {score: this.score});
+    this.total_count = this.array[0].rice + this.array[1].egg
+
+    if (this.count == 0 && this.total_count < 40) {
+      this.scene.start('GameOverScene');
       return;
-    } else if (this.count == 0 && this.deadEnemies['_total']() > 30) {
-      this.scene.start('GameWinScene', {score: this.score});
+    } else if (this.count == 0 && this.total_count >= 40) {
+      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:60});
       return;
     }
 
@@ -355,9 +347,13 @@ export default class Level2 extends Phaser.Scene {
 
   // increments count of given enemy type
   increment_count(type) {
-    this.deadEnemies[type] += 1;
-    this.riceText.setText("rice: " + this.deadEnemies['rice'] + "/27")
-    this.eggText.setText("egg: " + this.deadEnemies['egg'] + "/27")
+    if (type == 'rice'){
+      this.array[0].rice += 1
+    }else{
+      this.array[1].egg += 1
+    }
+    this.riceText.setText("rice: " + this.array[0].rice + "/27")
+    this.eggText.setText("egg: " + this.array[1].egg + "/27")
   }
 
   // water hit function for rice

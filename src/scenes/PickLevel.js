@@ -12,9 +12,10 @@ export default class PickLevel extends Phaser.Scene {
   preload () {
     // Preload assets
     this.load.image('pick', './assets/UI/level.png');
+    this.load.image('soupT', './assets/UI/soupT.png');
     this.load.image('soup1', './assets/UI/soup1.png');
     this.load.image('soup2', './assets/UI/soup2.png');
-    this.load.image('soup3', './assets/UI/soup2.png');
+    this.load.image('soup3', './assets/UI/soup3.png');
 
 
     // Declare variables for center of the scene
@@ -45,17 +46,22 @@ export default class PickLevel extends Phaser.Scene {
 
     //Create the scene and add text
     var background = this.add.image(this.centerX, this.centerY, 'pick');
-    var level1 = this.add.image(this.centerX-400, this.centerY+200, 'soup1').setScale(0.75).setInteractive();
+    var levelT = this.add.image(this.centerX, this.centerY, 'soupT').setScale(0.6).setInteractive();
+    levelT.on("pointerup",function(){
+      this.scene.start("LevelT");
+    }, this
+  );
+    var level1 = this.add.image(this.centerX-400, this.centerY+200, 'soup1').setScale(0.6).setInteractive();
     level1.on("pointerup",function(){
       this.scene.start("Level1");
     }, this
   );
-    var level2 = this.add.image(this.centerX, this.centerY+200, 'soup2').setScale(0.75).setInteractive();
+    var level2 = this.add.image(this.centerX, this.centerY+200, 'soup2').setScale(0.6).setInteractive();
     level2.on("pointerup",function(){
       this.scene.start("Level2");
     }, this
   );
-    var level3 = this.add.image(this.centerX+400, this.centerY+200, 'soup2').setScale(0.75).setInteractive();
+    var level3 = this.add.image(this.centerX+400, this.centerY+200, 'soup3').setScale(0.6).setInteractive();
     level3.on("pointerup",function(){
     this.scene.start("Level3");
     }, this

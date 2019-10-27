@@ -204,7 +204,8 @@ export default class Level3 extends Phaser.Scene {
       callback: this.shoot_ham,
       callbackScope: this,
       repeat: 2,
-      startAt: -13000
+      startAt: 0
+      //startAt: -13000
     })
     // add animations to enemy
     this.anims.create({
@@ -315,9 +316,11 @@ export default class Level3 extends Phaser.Scene {
       angle: { from: 0, to: 90 },
       ease: 'Linear',
       duration: 100,
-      repeat: 1,
+      repeat: 0,
       yoyo: true
     });
+    // last time knife chopped mod 5000
+    this.knife_lctime = 0;
   }
 
   update (time, delta) {
@@ -374,7 +377,14 @@ export default class Level3 extends Phaser.Scene {
           // position
           X = child.x
           Y = child.y
-          this.spawn_ham(X, Y, 'slice')
+          child.disableBody(true, true);
+          this.spawn_ham(X, Y, 'slice', time)
+          child
+            .enableBody(true, X, Y, true, true)
+            .setScale(0.75)
+            .setVelocityX(150)
+            .setDepth(1)
+            .anims.play('walk_ham',true);
           //this.increment_score(10);
           //this.increment_count('egg');
         }
@@ -390,7 +400,7 @@ export default class Level3 extends Phaser.Scene {
           Y = child.y
           child.disableBody(true, true);
           child.destroy();
-          this.spawn_ham(X, Y, 'strip')
+          this.spawn_ham(X, Y, 'strip', time)
           //this.increment_score(10);
           //this.increment_count('ham');
         }
@@ -431,6 +441,7 @@ export default class Level3 extends Phaser.Scene {
     this.knife.x = X
     this.knife.y = Y
     if (pointer.isDown && ~this.tw.isPlaying()) {
+      this.knife_lctime = Phaser.Math.Wrap(time, 0, 5000)
       this.tw.play();
       this.chop.play();
     }
@@ -547,14 +558,23 @@ export default class Level3 extends Phaser.Scene {
   }
 
   // spawns 4 ham of specified type at the given x,y
-  spawn_ham(x, y, type) {
+  // very buggy; spawns 2 ham instead of one
+  // note: maybe add a callback to the tween instead of this method
+  spawn_ham(x, y, type, time) {
+    // make sure the knife hasn't chopped in the last 100 ms
+    var diff = Phaser.Math.Difference(time, this.knife_lctime)
+    if (diff < 100) return;
     if (type == 'slice') {
       var h1 = this.ham_slice.get()
+      if (h1) {
+        h1
           .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
           .setScale(0.75)
           .setVelocityX(200)
-          .setDepth(1)
+          .setDepth(2)
           .anims.play('walk_ham_slice', true)
+        console.log('slice spawned')
+      }
     } else if (type == 'strip') {
       var h1 = this.ham_strip.get()
       var h2 = this.ham_strip.get()
@@ -563,28 +583,29 @@ export default class Level3 extends Phaser.Scene {
       if (h1 && h2 && h3 && h4) {
         h1
           .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
-          .setScale(0.75)
+          .setScale(0.3)
           .setVelocityX(200)
-          .setDepth(1)
+          .setDepth(3)
           .anims.play('walk_ham_strip', true)
         h2
           .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
-          .setScale(0.75)
+          .setScale(0.3)
           .setVelocityX(200)
-          .setDepth(1)
+          .setDepth(3)
           .anims.play('walk_ham_strip', true)
         h3
           .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
-          .setScale(0.75)
+          .setScale(0.3)
           .setVelocityX(200)
-          .setDepth(1)
+          .setDepth(3)
           .anims.play('walk_ham_strip', true)
         h4
           .enableBody(true,(-100)*Math.random() + x,30*Math.random()*this.rand_sign() + y, true, true)
-          .setScale(0.75)
+          .setScale(0.3)
           .setVelocityX(200)
-          .setDepth(1)
+          .setDepth(3)
           .anims.play('walk_ham_strip', true)
+        console.log('strips spawned')
       }
     }
   }

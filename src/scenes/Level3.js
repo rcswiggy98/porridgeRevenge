@@ -105,9 +105,9 @@ export default class Level3 extends Phaser.Scene {
     // scoring
     this.score = 0;
 
-    this.riceText = this.add.text(1400, 150, 'Rice Coming: ', { fontSize: '64px', fill: '#000000' }).setDepth(1);
-    this.eggText = this.add.text(1400, 200, 'Egg Coming: ', { fontSize: '64px', fill: '#000000' }).setDepth(1);
-    this.hamText = this.add.text(1400, 250, 'Ham Coming: ', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.riceText = this.add.text(1400, 150, 'Rice Coming: ', { fontSize: '50px', fill: '#000000' }).setDepth(1);
+    this.eggText = this.add.text(1400, 200, 'Egg Coming: ', { fontSize: '50px', fill: '#000000' }).setDepth(1);
+    this.hamText = this.add.text(1400, 250, 'Ham Coming: ', { fontSize: '50px', fill: '#000000' }).setDepth(1);
     this.tText = this.add.text(125, 150, "Target enemy", { fontSize: '55px', fill: '#000000' }).setDepth(1);
     this.riceView = this.add.sprite(210, 300, 'rice_dead').setScale(0.6).setDepth(1);
     this.eggTopView = this.add.sprite(210, 450, 'egg_top_dead').setScale(0.6).setDepth(1);
@@ -154,23 +154,23 @@ export default class Level3 extends Phaser.Scene {
     })
     this.egg = this.physics.add.group({
       defaultKey: "egg",
-      maxSize: 30
+      maxSize: 12
     });
     this.egg_top = this.physics.add.group({
       defaultKey: 'egg_top',
-      maxSize: 30,
+      maxSize: 24,
     });
     this.egg_bottom = this.physics.add.group({
       defaultKey: 'egg_bottom',
-      maxSize: 30
+      maxSize: 24,
     });
     this.egg_top_dead = this.physics.add.group({
       defaultKey: 'egg_top_dead',
-      maxSize: 30,
+      maxSize: 24,
     });
     this.egg_bottom_dead = this.physics.add.group({
       defaultKey: 'egg_bottom_dead',
-      maxSize: 30
+      maxSize: 24,
     });
     this.ham = this.physics.add.group({
       defaultKey: 'ham',
@@ -200,7 +200,7 @@ export default class Level3 extends Phaser.Scene {
       delay: 4000,
       callback: this.shoot_egg,
       callbackScope: this,
-      repeat: 15,
+      repeat: 12,
       startAt: -2200
     })
     this.timer_ham = this.time.addEvent({
@@ -307,7 +307,10 @@ export default class Level3 extends Phaser.Scene {
     // **********end enemy stuff*************
 
     // count to trigger game over scene
-    this.count = 45
+    this.count = 44
+    this.riceCount = 30
+    this.eggCount = 12
+    this.hamCount = 2
 
     // add knife
     this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
@@ -340,6 +343,11 @@ export default class Level3 extends Phaser.Scene {
       right: 'D',
       space: 'SPACE'
     });
+
+    // update board
+    this.riceText.setText("Rice coming: " + this.riceCount)
+    this.eggText.setText("Egg coming: " + this.eggCount)
+    this.hamText.setText("Ham coming: " + this.hamCount)
 
     // touch/mouse listening
     var pointer = this.input.activePointer;
@@ -479,9 +487,6 @@ export default class Level3 extends Phaser.Scene {
     } else{
       this.array[2].ham += 1
     }
-    this.riceText.setText("rice: " + this.array[0].rice + "/27")
-    this.eggText.setText("egg: " + this.array[1].egg + "/27")
-    this.hamText.setText("ham: " + this.array[2].ham + "/27")
   }
 
   // water hit function for rice
@@ -529,6 +534,7 @@ export default class Level3 extends Phaser.Scene {
         .setDepth(1)
         .anims.play('walk_rice',true);
       this.count -= 1;
+      this.riceCount -= 1;
     }
   }
 
@@ -543,6 +549,7 @@ export default class Level3 extends Phaser.Scene {
         .setDepth(1)
         .anims.play('walk_egg',true);
       this.count -= 1;
+      this.eggCount -= 1;
     }
   }
 
@@ -557,6 +564,7 @@ export default class Level3 extends Phaser.Scene {
         .setDepth(1)
         .anims.play('walk_ham',true);
       this.count -= 1;
+      this.hamCount -= 1;
     }
   }
 

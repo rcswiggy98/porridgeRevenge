@@ -104,11 +104,15 @@ export default class Level3 extends Phaser.Scene {
 
     // scoring
     this.score = 0;
-    this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
-    this.riceText = this.add.text(1400, 150, 'rice: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
-    this.eggText = this.add.text(1400, 200, 'egg: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
-    this.hamText = this.add.text(1400, 250, 'ham: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
-    this.tText = this.add.text(125, 150, "Use 'A' and 'D' to\ncontrol the faucet\nUse 'SPACE' to shoot\nUse mouse to control\nthe knife\nClick to chop", { fontSize: '32px', fill: '#000000' }).setDepth(1);
+
+    this.riceText = this.add.text(1400, 150, 'Rice Coming: ', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.eggText = this.add.text(1400, 200, 'Egg Coming: ', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.hamText = this.add.text(1400, 250, 'Ham Coming: ', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.tText = this.add.text(125, 150, "Target enemy", { fontSize: '55px', fill: '#000000' }).setDepth(1);
+    this.riceView = this.add.sprite(210, 300, 'rice_dead').setScale(0.6).setDepth(1);
+    this.eggTopView = this.add.sprite(210, 450, 'egg_top_dead').setScale(0.6).setDepth(1);
+    this.eggBottomView = this.add.sprite(360, 450, 'egg_bottom_dead').setScale(0.6).setDepth(1);
+    this.hamView = this.add.sprite(360, 300,'ham_strip_dead').setScale(0.6).setDepth(1);
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed
 
@@ -453,7 +457,6 @@ export default class Level3 extends Phaser.Scene {
   // increments score by given amount
   increment_score(amount) {
     this.score += amount;
-    this.scoreText.setText("Score: " + this.score)
   }
 
   // increments count of given enemy type

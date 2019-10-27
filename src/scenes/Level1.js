@@ -63,9 +63,9 @@ export default class Level1Scene extends Phaser.Scene {
     this.faucet_lftime = 1.0; // last time faucet fired water mod 5000
     this.faucet.setCollideWorldBounds(true)
     this.score = 0;
-    this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
-    this.riceText = this.add.text(1400, 150, 'rice: 0/27', { fontSize: '64px', fill: '#000000' }).setDepth(1);
-    this.tText = this.add.text(125, 150, "Use 'A' and 'D' to\ncontrol the faucet\nUse 'SPACE' to shoot", { fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.riceText = this.add.text(1400, 150, 'Rice Coming: ', { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.tText = this.add.text(125, 150, "Target enemy", { fontSize: '55px', fill: '#000000' }).setDepth(1);
+    this.riceView = this.add.sprite(200, 300, 'rice_dead').setScale(0.7).setDepth(1);
     this.initialEnemy = 30;
 
     // create a array
@@ -180,6 +180,9 @@ export default class Level1Scene extends Phaser.Scene {
       return;
     }
 
+    // update the riceText
+    this.riceText.setText("Rice Coming: " + this.count)
+
     // collision for water bullets
     this.set_proj_collision(this.water_bullets, this.rice)
 
@@ -245,14 +248,12 @@ export default class Level1Scene extends Phaser.Scene {
   // increments score by given amount
   increment_score(amount) {
       this.score += amount;
-      this.scoreText.setText("Score: " + this.score)
   }
 
   // increments count of rice by given amount
   increment_count(){
     this.array[0].rice += 1;
     console.log(this.array[0].rice);
-    this.riceText.setText("rice: " + this.array[0].rice + "/27")
   }
 
   // hit function for water

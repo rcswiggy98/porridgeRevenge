@@ -87,8 +87,8 @@ export default class Level2 extends Phaser.Scene {
 
     // scoring
     this.score = 0;
-    this.riceText = this.add.text(1400, 150, 'Rice Coming: ', { fontSize: '64px', fill: '#000000' }).setDepth(1);
-    this.eggText = this.add.text(1400, 200, 'Egg Coming: ', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.riceText = this.add.text(1400, 150, 'Rice Coming: ', { fontSize: '45px', fill: '#000000' }).setDepth(1);
+    this.eggText = this.add.text(1400, 200, 'Egg Coming: ', { fontSize: '45px', fill: '#000000' }).setDepth(1);
     this.tText = this.add.text(125, 150, "Target enemy", { fontSize: '55px', fill: '#000000' }).setDepth(1);
     this.riceView = this.add.sprite(280, 300, 'rice_dead').setScale(0.6).setDepth(1);
     this.eggTopView = this.add.sprite(210, 450, 'egg_top_dead').setScale(0.6).setDepth(1);
@@ -226,7 +226,9 @@ export default class Level2 extends Phaser.Scene {
     // *********end enemy stuff*************
 
     // count to trigger game over scene
-    this.count = 45
+    this.count = 67
+    this.riceCount = 51
+    this.eggCount = 16
 
     // add knife
     this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
@@ -272,6 +274,9 @@ export default class Level2 extends Phaser.Scene {
     // collision for egg group
     this.set_proj_collision_egg_b(this.water_bullets, this.egg_bottom)
     this.set_proj_collision_egg_t(this.water_bullets, this.egg_top)
+
+    this.riceText.setText('Rice Coming:' + this.riceCount)
+    this.eggText.setText('Egg Coming:' + this.eggCount)
 
     this.egg.children.iterate(function(child) {
       // make sure child is not null, i.e. hasn't spawned yet
@@ -354,8 +359,6 @@ export default class Level2 extends Phaser.Scene {
     }else{
       this.array[1].egg += 1
     }
-    this.riceText.setText("rice: " + this.array[0].rice + "/27")
-    this.eggText.setText("egg: " + this.array[1].egg + "/27")
   }
 
   // water hit function for rice
@@ -395,6 +398,7 @@ export default class Level2 extends Phaser.Scene {
         .setDepth(1)
         .anims.play('walk_rice',true);
       this.count -= 1;
+      this.riceCount -=1;
     }
   }
 
@@ -409,6 +413,7 @@ export default class Level2 extends Phaser.Scene {
         .setDepth(1)
         .anims.play('walk_egg',true);
       this.count -= 1;
+      this.eggCount -= 1;
     }
   }
 

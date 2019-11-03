@@ -131,7 +131,7 @@ export default class Level1Scene extends Phaser.Scene {
     //   repeat: 1,
     //   yoyo: true
     // });
-
+    this.fires = 0;
     // add animations to enemy
     this.anims.create({
       key: "walk",
@@ -141,15 +141,72 @@ export default class Level1Scene extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: "fire",
+      key: "fire1",
       frames: this.anims.generateFrameNumbers("fire", { start: 0, end: 1 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire2",
+      frames: this.anims.generateFrameNumbers("fire", { start: 2, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire3",
+      frames: this.anims.generateFrameNumbers("fire", { start: 4, end: 5 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire4",
+      frames: this.anims.generateFrameNumbers("fire", { start:6, end: 7 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire5",
+      frames: this.anims.generateFrameNumbers("fire", { start: 8, end: 9 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire6",
+      frames: this.anims.generateFrameNumbers("fire", { start: 10, end: 11 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire7",
+      frames: this.anims.generateFrameNumbers("fire", { start: 12, end: 13 }),
       frameRate: 10,
       repeat: -1
     });
   }
 
   update (time, delta) {
-    this.fire.anims.play("fire", true);
+    if(this.fires == 0){
+      this.fire.anims.play("fire1", true);
+    } else if (this.fires == 1) {
+      this.fire.anims.play("fire2", true);
+    } else if (this.fires == 2) {
+      this.fire.anims.play("fire3", true);
+    } else if (this.fires == 3) {
+      this.fire.anims.play("fire4", true);
+    } else if (this.fires == 4) {
+      this.fire.anims.play("fire5", true);
+    } else if (this.fires == 5) {
+      this.fire.anims.play("fire6", true);
+    } else if (this.fires == 6) {
+      this.fire.anims.play("fire7", true);
+    }
+
     // add cursor keys
     var keys = this.input.keyboard.createCursorKeys();
 
@@ -172,7 +229,7 @@ export default class Level1Scene extends Phaser.Scene {
     var frate_faucet = 300;
 
     //Game over
-    if (this.count == 0 && this.array[0].rice <15) {
+    if (this.fires == 7) {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0 && this.array[0].rice >=15){
@@ -265,6 +322,7 @@ export default class Level1Scene extends Phaser.Scene {
     this.rice_in_pot();
   }
 
+
   // generate rice enemies
   shoot_rice() {
     var rice_single = this.rice.get();
@@ -310,6 +368,16 @@ export default class Level1Scene extends Phaser.Scene {
             p.destroy();
           } else if (p.x > this.cameras.main.width) {
             p.destroy();
+          }
+        }
+      }.bind(this)
+    );
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 1;
+            e.destroy();
           }
         }
       }.bind(this)

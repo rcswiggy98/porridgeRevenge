@@ -89,16 +89,17 @@ export default class LevelT extends Phaser.Scene {
     const clickboard2 = this.add.sprite(1920 * 5 / 6, 325 , 'clickboard2').setScale(1.1).setDepth(1);
     const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.8).setDepth(1);
     this.fire = this.add.sprite(1920 / 2, 500, 'fire').setScale(0.8).setDepth(1);
-    this.mouse = this.add.sprite(1600, 300, 'mouse').setScale(0.8).setDepth(1);
-    this.wasd = this.add.sprite(325, 275, 'wasd').setScale(0.8).setDepth(1);
-    this.space = this.add.sprite(325, 500, 'space').setScale(0.8).setDepth(1);
+    this.mouse = this.add.sprite(1600, 300, 'mouse').setScale(0.4).setDepth(1);
+    this.wasd = this.add.sprite(325, 275, 'wasd').setScale(0.6).setDepth(1);
+    this.space = this.add.sprite(325, 500, 'space').setScale(0.6).setDepth(1);
+    this.fireL = this.add.sprite(1920 / 2, 500, 'fire').setScale(0.4).setDepth(1);
 
     // add faucet
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
     this.faucet.setScale(0.5);
     this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
     this.faucet.setCollideWorldBounds(true)
-
+    this.fires = 0;
     this.initialEnemy = 30;
 
     // scoring
@@ -169,13 +170,13 @@ export default class LevelT extends Phaser.Scene {
 
     // delay the enemies
     this.timer_rice = this.time.addEvent({
-      delay: 1500,
+      delay: 2500,
       callback: this.shoot_rice,
       callbackScope: this,
       repeat: 50
     });
     this.timer_egg = this.time.addEvent({
-      delay: 4000,
+      delay: 5000,
       callback: this.shoot_egg,
       callbackScope: this,
       repeat: 15,
@@ -249,8 +250,50 @@ export default class LevelT extends Phaser.Scene {
       repeat: -1
     })
     this.anims.create({
-      key: "fire",
+      key: "fire1",
       frames: this.anims.generateFrameNumbers("fire", { start: 0, end: 1 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire2",
+      frames: this.anims.generateFrameNumbers("fire", { start: 2, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire3",
+      frames: this.anims.generateFrameNumbers("fire", { start: 4, end: 5 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire4",
+      frames: this.anims.generateFrameNumbers("fire", { start:6, end: 7 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire5",
+      frames: this.anims.generateFrameNumbers("fire", { start: 8, end: 9 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire6",
+      frames: this.anims.generateFrameNumbers("fire", { start: 10, end: 11 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire7",
+      frames: this.anims.generateFrameNumbers("fire", { start: 12, end: 13 }),
       frameRate: 10,
       repeat: -1
     });
@@ -277,7 +320,21 @@ export default class LevelT extends Phaser.Scene {
   }
 
   update (time, delta) {
-    this.fire.anims.play("fire", true);
+    if(this.fires == 0){
+      this.fire.anims.play("fire1", true);
+    } else if (this.fires == 1) {
+      this.fire.anims.play("fire2", true);
+    } else if (this.fires == 2) {
+      this.fire.anims.play("fire3", true);
+    } else if (this.fires == 3) {
+      this.fire.anims.play("fire4", true);
+    } else if (this.fires == 4) {
+      this.fire.anims.play("fire5", true);
+    } else if (this.fires == 5) {
+      this.fire.anims.play("fire6", true);
+    } else if (this.fires == 6) {
+      this.fire.anims.play("fire7", true);
+    }
     this.wasd.anims.play("ad", true);
     this.space.anims.play("sp", true);
     this.mouse.anims.play("mu", true);
@@ -303,10 +360,11 @@ export default class LevelT extends Phaser.Scene {
     var frate_faucet = 300;
 
     // collision for water bullets
-    this.set_proj_collision_rice(this.water_bullets, this.rice)
+    this.set_proj_collision_rice(this.water_bullets, this.rice);
     // collision for egg group
-    this.set_proj_collision_egg_b(this.water_bullets, this.egg_bottom)
-    this.set_proj_collision_egg_t(this.water_bullets, this.egg_top)
+    this.set_proj_collision_egg_b(this.water_bullets, this.egg_bottom);
+    this.set_proj_collision_egg_t(this.water_bullets, this.egg_top);
+    this.set_proj_collision_egg_w(this.egg);
 
     this.egg.children.iterate(function(child) {
       // make sure child is not null, i.e. hasn't spawned yet
@@ -327,11 +385,11 @@ export default class LevelT extends Phaser.Scene {
     // winning condition check
     this.total_count = this.array[0].rice + this.array[1].egg
 
-    if (this.count == 0 && this.total_count < 40) {
-      this.scene.start('GameOverScene');
+    if (this.fires >= 7) {
+      this.scene.start('LevelT');
       return;
-    } else if (this.count == 0 && this.total_count >= 40) {
-      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:60});
+    } else if (this.count == 0) {
+      this.scene.start('PickLevel');
       return;
     }
 
@@ -523,6 +581,16 @@ export default class LevelT extends Phaser.Scene {
         }
       }.bind(this)
     );
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 1;
+            e.destroy();
+          }
+        }
+      }.bind(this)
+    );
   }
 
   // egg collision function
@@ -549,6 +617,16 @@ export default class LevelT extends Phaser.Scene {
         }
       }.bind(this)
     );
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 1;
+            e.destroy();
+          }
+        }
+      }.bind(this)
+    );
   }
 
   // egg collision function
@@ -571,6 +649,28 @@ export default class LevelT extends Phaser.Scene {
             p.destroy();
           } else if (p.x > this.cameras.main.width) {
             p.destroy();
+          }
+        }
+      }.bind(this)
+    );
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 1;
+            e.destroy();
+          }
+        }
+      }.bind(this)
+    );
+  }
+  set_proj_collision_egg_w (enemies){
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 2;
+            e.destroy();
           }
         }
       }.bind(this)

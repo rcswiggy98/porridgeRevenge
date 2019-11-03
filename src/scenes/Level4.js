@@ -96,7 +96,9 @@ export default class Level4 extends Phaser.Scene {
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
     this.faucet.setScale(0.5);
     this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
-    this.faucet.setCollideWorldBounds(true)
+    this.faucet.setCollideWorldBounds(true);
+    this.fires = 0;
+    this.hamCount = 0;
     this.initialEnemy = 30;
 
     // scoring
@@ -258,12 +260,6 @@ export default class Level4 extends Phaser.Scene {
       frameRate: 10,
       repeat: -1
     });
-    this.anims.create({
-      key: "fire",
-      frames: this.anims.generateFrameNumbers("fire", { start: 0, end: 1 }),
-      frameRate: 10,
-      repeat: -1
-    });
 
     this.anims.create({
       key: "walk_ham",
@@ -286,6 +282,55 @@ export default class Level4 extends Phaser.Scene {
     this.anims.create({
       key: "idle_ham_slice",
       frames: this.anims.generateFrameNumbers("ham_slice", { start: 0, end: 0}),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire1",
+      frames: this.anims.generateFrameNumbers("fire", { start: 0, end: 1 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire2",
+      frames: this.anims.generateFrameNumbers("fire", { start: 2, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire3",
+      frames: this.anims.generateFrameNumbers("fire", { start: 4, end: 5 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire4",
+      frames: this.anims.generateFrameNumbers("fire", { start:6, end: 7 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire5",
+      frames: this.anims.generateFrameNumbers("fire", { start: 8, end: 9 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire6",
+      frames: this.anims.generateFrameNumbers("fire", { start: 10, end: 11 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fire7",
+      frames: this.anims.generateFrameNumbers("fire", { start: 12, end: 13 }),
       frameRate: 10,
       repeat: -1
     });
@@ -324,7 +369,21 @@ export default class Level4 extends Phaser.Scene {
   }
 
   update (time, delta) {
-    this.fire.anims.play("fire", true);
+    if(this.fires == 0){
+      this.fire.anims.play("fire1", true);
+    } else if (this.fires == 1) {
+      this.fire.anims.play("fire2", true);
+    } else if (this.fires == 2) {
+      this.fire.anims.play("fire3", true);
+    } else if (this.fires == 3) {
+      this.fire.anims.play("fire4", true);
+    } else if (this.fires == 4) {
+      this.fire.anims.play("fire5", true);
+    } else if (this.fires == 5) {
+      this.fire.anims.play("fire6", true);
+    } else if (this.fires == 6) {
+      this.fire.anims.play("fire7", true);
+    }
     // add cursor keys
     var keys = this.input.keyboard.createCursorKeys();
 
@@ -356,6 +415,8 @@ export default class Level4 extends Phaser.Scene {
     // collision for egg group
     this.set_proj_collision_egg_b(this.water_bullets, this.egg_bottom)
     this.set_proj_collision_egg_t(this.water_bullets, this.egg_top)
+    this.set_proj_collision_egg_w(this.egg);
+    this.set_proj_collision_ham_w(this.ham);
     // collision for ham group
     this.set_proj_collision_ham_slice(this.water_bullets, this.ham_slice)
     // collision for upgrade and faucet
@@ -416,7 +477,7 @@ export default class Level4 extends Phaser.Scene {
     // winning condition check
     this.total_count = this.array[0].rice + this.array[1].egg + this.array[2].ham
 
-    if (this.count == 0 && this.total_count < 50) {
+    if (this.fires == 7) {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0 && this.total_count >= 50) {
@@ -694,6 +755,16 @@ export default class Level4 extends Phaser.Scene {
         }
       }.bind(this)
     );
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 1;
+            e.destroy();
+          }
+        }
+      }.bind(this)
+    );
   }
 
   // egg collision function
@@ -716,6 +787,16 @@ export default class Level4 extends Phaser.Scene {
             p.destroy();
           } else if (p.x > this.cameras.main.width) {
             p.destroy();
+          }
+        }
+      }.bind(this)
+    );
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 1;
+            e.destroy();
           }
         }
       }.bind(this)
@@ -746,6 +827,16 @@ export default class Level4 extends Phaser.Scene {
         }
       }.bind(this)
     );
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 1;
+            e.destroy();
+          }
+        }
+      }.bind(this)
+    );
   }
 
   // egg collision function
@@ -772,6 +863,42 @@ export default class Level4 extends Phaser.Scene {
         }
       }.bind(this)
     );
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 1;
+            e.destroy();
+          }
+        }
+      }.bind(this)
+    );
+
+  }
+  set_proj_collision_egg_w (enemies){
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 2;
+            e.destroy();
+          }
+        }
+      }.bind(this)
+    );
+  }
+
+  set_proj_collision_ham_w (enemies){
+    enemies.children.each(
+      function (e) {
+        if (e.active) {
+          if (e.x > this.cameras.main.width) {
+            this.fires += 4;
+            e.destroy();
+          }
+        }
+      }.bind(this)
+    );
   }
 
   // returns either -1 or +1 at random with equal probability
@@ -784,26 +911,30 @@ export default class Level4 extends Phaser.Scene {
   }
 
   checkKnifeColl(tweenData){//, hamGroup, hamSlices) {
-    var hams = this.ham.getChildren()
-    var ham_slices = this.ham_slice.getChildren()
-    console.log(hams)
-    console.log(ham_slices)
+    var hams = this.ham.getChildren();
+    var ham_slices = this.ham_slice.getChildren();
+    console.log(hams);
+    console.log(ham_slices);
     for(var h of hams) {
       if (h) {
-        var overlap = this.physics.world.overlap(h, this.knife)
+        var overlap = this.physics.world.overlap(h, this.knife);
         if (overlap) {
           //h.disableBody(true, true)
-          this.spawn_ham(h.x, h.y, 'slice')
+          this.spawn_ham(h.x, h.y, 'slice');
+          this.hamCount += 1;
+          if (this.hamCount == 10) {
+            h.disableBody(true, true);
+          }
           //h.destroy()
         }
       }
     }
     for(h in ham_slices) {
       if (h) {
-        var overlap = this.physics.world.overlap(h, this.knife)
+        var overlap = this.physics.world.overlap(h, this.knife);
         if (overlap) {
           //h.disableBody(true, true)
-          spawn_ham(h.x, h.y, 'strip')
+          spawn_ham(h.x, h.y, 'strip');
           //h.destroy()
         }
       }

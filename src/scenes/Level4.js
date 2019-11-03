@@ -305,13 +305,16 @@ export default class Level4 extends Phaser.Scene {
     this.knife.setOrigin(0.9, 0.75)
     // knife chop tween
     this.tw = this.tweens.add({
-      targets: this.knife,
-      angle: { from: 0, to: 90 },
-      ease: 'Linear',
-      duration: 100,
-      repeat: 0,
-      yoyo: true
-    });
+        targets: this.knife,
+        angle: { from: 0, to: 90 },
+        ease: 'Linear',
+        duration: 100,
+        repeat: 0,
+        yoyo: true,
+        onComplete: this.checkKnifeColl,
+        onCompleteScope: this
+        //onStartParams: [this.ham.getChildren(), this.ham_slice.getChildren()]
+      });
     // last time knife chopped mod 5000
     this.knife_lctime = 0;
 
@@ -389,26 +392,26 @@ export default class Level4 extends Phaser.Scene {
       }
     }, this);
 
-    this.ham.children.iterate(function(child) {
-      // make sure child is not null, i.e. hasn't spawned yet
-      if (pointer.isDown && ~this.tw.isPlaying() && child) {
-        if (this.physics.world.overlap(child, this.knife)) {
-          // position
-          X = child.x
-          Y = child.y
-          child.disableBody(true, true);
-          this.spawn_ham(X, Y, 'slice', time)
-          child
-            .enableBody(true, X, Y, true, true)
-            .setScale(0.75)
-            .setVelocityX(150)
-            .setDepth(1)
-            .anims.play('walk_ham',true);
-          //this.increment_score(10);
-          //this.increment_count('egg');
-        }
-      }
-    }, this);
+    // this.ham.children.iterate(function(child) {
+    //   // make sure child is not null, i.e. hasn't spawned yet
+    //   if (pointer.isDown && ~this.tw.isPlaying() && child) {
+    //     if (this.physics.world.overlap(child, this.knife)) {
+    //       // position
+    //       X = child.x
+    //       Y = child.y
+    //       child.disableBody(true, true);
+    //       this.spawn_ham(X, Y, 'slice', time)
+    //       child
+    //         .enableBody(true, X, Y, true, true)
+    //         .setScale(0.75)
+    //         .setVelocityX(150)
+    //         .setDepth(1)
+    //         .anims.play('walk_ham',true);
+    //       //this.increment_score(10);
+    //       //this.increment_count('egg');
+    //     }
+    //   }
+    // }, this);
 
     // winning condition check
     this.total_count = this.array[0].rice + this.array[1].egg + this.array[2].ham
@@ -777,6 +780,33 @@ export default class Level4 extends Phaser.Scene {
       return 1;
     } else {
       return -1;
+    }
+  }
+
+  checkKnifeColl(tweenData){//, hamGroup, hamSlices) {
+    var hams = this.ham.getChildren()
+    var ham_slices = this.ham_slice.getChildren()
+    console.log(hams)
+    console.log(ham_slices)
+    for(var h of hams) {
+      if (h) {
+        var overlap = this.physics.world.overlap(h, this.knife)
+        if (overlap) {
+          //h.disableBody(true, true)
+          this.spawn_ham(h.x, h.y, 'slice')
+          //h.destroy()
+        }
+      }
+    }
+    for(h in ham_slices) {
+      if (h) {
+        var overlap = this.physics.world.overlap(h, this.knife)
+        if (overlap) {
+          //h.disableBody(true, true)
+          spawn_ham(h.x, h.y, 'strip')
+          //h.destroy()
+        }
+      }
     }
   }
 }

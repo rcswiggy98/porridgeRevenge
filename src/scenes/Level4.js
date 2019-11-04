@@ -98,7 +98,7 @@ export default class Level4 extends Phaser.Scene {
     this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
     this.faucet.setCollideWorldBounds(true);
     this.fires = 0;
-    this.hamCount = 0;
+    this.hamC = 1;
     this.initialEnemy = 30;
 
     // scoring
@@ -204,10 +204,10 @@ export default class Level4 extends Phaser.Scene {
       startAt: -2200
     })
     this.timer_ham = this.time.addEvent({
-      delay: 12000,
+      delay: 15000,
       callback: this.shoot_ham,
       callbackScope: this,
-      repeat: 2,
+      repeat: 1,
       startAt: 0
       //startAt: -13000
     })
@@ -426,7 +426,7 @@ export default class Level4 extends Phaser.Scene {
     if (pointer.isDown && ~this.tw.isPlaying()) {
       if (this.physics.world.overlap(this.ham, this.knife)) {
         this.chop_time += 1
-        console.log(this.chop_time)
+        //console.log(this.chop_time)
       }
       if (this.chop_time == 10){
         this.upgrade = this.physics.add.sprite(300, 16, "upgrade").setScale(0.2).setDepth(1);
@@ -481,7 +481,7 @@ export default class Level4 extends Phaser.Scene {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0 && this.total_count >= 50) {
-      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:90});
+      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:72});
       return;
     }
 
@@ -644,6 +644,8 @@ export default class Level4 extends Phaser.Scene {
     // make sure the knife hasn't chopped in the last 100 ms
     var diff = Phaser.Math.Difference(time, this.knife_lctime)
     if (diff < 100) return;
+    this.hamC += 1;
+    console.log(this.hamC);
     if (type == 'slice') {
       var h1 = this.ham_slice.get()
       if (h1) {
@@ -895,6 +897,9 @@ export default class Level4 extends Phaser.Scene {
           if (e.x > this.cameras.main.width) {
             this.fires += 4;
             e.destroy();
+          } else if (this.hamC % 10 == 0) {
+            e.disableBody(true, true);
+            this.hamC = 1;
           }
         }
       }.bind(this)
@@ -913,18 +918,15 @@ export default class Level4 extends Phaser.Scene {
   checkKnifeColl(tweenData){//, hamGroup, hamSlices) {
     var hams = this.ham.getChildren();
     var ham_slices = this.ham_slice.getChildren();
-    console.log(hams);
-    console.log(ham_slices);
+    //console.log(hams);
+    //console.log(ham_slices);
     for(var h of hams) {
       if (h) {
         var overlap = this.physics.world.overlap(h, this.knife);
         if (overlap) {
           //h.disableBody(true, true)
           this.spawn_ham(h.x, h.y, 'slice');
-          this.hamCount += 1;
-          if (this.hamCount == 10) {
-            h.disableBody(true, true);
-          }
+
           //h.destroy()
         }
       }
@@ -934,7 +936,7 @@ export default class Level4 extends Phaser.Scene {
         var overlap = this.physics.world.overlap(h, this.knife);
         if (overlap) {
           //h.disableBody(true, true)
-          spawn_ham(h.x, h.y, 'strip');
+          spawn_ham(h.x, h.y, 'strip', h);
           //h.destroy()
         }
       }

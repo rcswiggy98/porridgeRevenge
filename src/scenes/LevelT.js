@@ -89,10 +89,10 @@ export default class LevelT extends Phaser.Scene {
     const clickboard2 = this.add.sprite(1920 * 5 / 6, 325 , 'clickboard2').setScale(1.1).setDepth(1);
     const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.8).setDepth(1);
     this.fire = this.add.sprite(1920 / 2, 500, 'fire').setScale(0.8).setDepth(1);
-    this.mouse = this.add.sprite(1600, 300, 'mouse').setScale(0.4).setDepth(1);
+    this.mouse = this.add.sprite(1600, 220, 'mouse').setScale(0.4).setDepth(1);
     this.wasd = this.add.sprite(325, 275, 'wasd').setScale(0.6).setDepth(1);
     this.space = this.add.sprite(325, 500, 'space').setScale(0.6).setDepth(1);
-    this.fireL = this.add.sprite(1920 / 2, 500, 'fire').setScale(0.4).setDepth(1);
+    this.fireL = this.add.sprite(1600, 500, 'fire').setScale(0.3).setDepth(1);
 
     // add faucet
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
@@ -106,7 +106,7 @@ export default class LevelT extends Phaser.Scene {
     this.score = 0;
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
     this.riceText = this.add.text(1400, 115, 'Left click to chop', { fontSize: '32px', fill: '#000000' }).setDepth(1);
-    this.eggText = this.add.text(1400, 475, 'Put small pieces into\nthe pot using faucet', { fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.eggText = this.add.text(1400, 320, 'Protect the fire by\nPut rebal army into\nthe pot using faucet', { fontSize: '32px', fill: '#000000' }).setDepth(1);
     this.tText = this.add.text(125, 115, "Use 'A' and 'D' to\ncontrol the faucet\n\n\n\n\n\n\nUse 'SPACE' to shoot", { fontSize: '32px', fill: '#000000' }).setDepth(1);
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed
@@ -297,6 +297,12 @@ export default class LevelT extends Phaser.Scene {
       frameRate: 10,
       repeat: -1
     });
+    this.anims.create({
+      key: "fireL",
+      frames: this.anims.generateFrameNumbers("fire", { start: 0, end: 15 }),
+      frameRate: 10,
+      repeat: -1
+    });
 
     // *********end enemy stuff*************
 
@@ -320,6 +326,7 @@ export default class LevelT extends Phaser.Scene {
   }
 
   update (time, delta) {
+    this.fireL.anims.play("fireL", true);
     if(this.fires == 0){
       this.fire.anims.play("fire1", true);
     } else if (this.fires == 1) {

@@ -89,7 +89,7 @@ export default class Level2 extends Phaser.Scene {
     this.score = 0;
     this.riceText = this.add.text(1400, 150, 'Rice Coming: ', { fontSize: '45px', fill: '#000000' }).setDepth(1);
     this.eggText = this.add.text(1400, 200, 'Egg Coming: ', { fontSize: '45px', fill: '#000000' }).setDepth(1);
-    this.tText = this.add.text(125, 150, "Target enemy", { fontSize: '55px', fill: '#000000' }).setDepth(1);
+    this.tText = this.add.text(105, 150, "Target Ingredients", { fontSize: '40px', fill: '#000000' }).setDepth(1);
     this.riceView = this.add.sprite(280, 300, 'rice_dead').setScale(0.6).setDepth(1);
     this.eggTopView = this.add.sprite(210, 450, 'egg_top_dead').setScale(0.6).setDepth(1);
     this.eggBottomView = this.add.sprite(360, 450, 'egg_bottom_dead').setScale(0.6).setDepth(1);
@@ -359,7 +359,7 @@ export default class Level2 extends Phaser.Scene {
     if (this.fires >= 7) {
       this.scene.start('GameOverScene');
       return;
-    } else if (this.count == 0 && this.total_count >= 40) {
+    } else if (this.count == 0) {
       this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:60});
       return;
     }

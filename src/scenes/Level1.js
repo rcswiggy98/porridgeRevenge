@@ -64,7 +64,7 @@ export default class Level1Scene extends Phaser.Scene {
     this.faucet.setCollideWorldBounds(true)
     this.score = 0;
     this.riceText = this.add.text(1400, 150, 'Rice Coming: ', { fontSize: '40px', fill: '#000000' }).setDepth(1);
-    this.tText = this.add.text(125, 150, "Target enemy", { fontSize: '55px', fill: '#000000' }).setDepth(1);
+    this.tText = this.add.text(105, 150, "Target Ingredients", { fontSize: '40px', fill: '#000000' }).setDepth(1);
     this.riceView = this.add.sprite(200, 300, 'rice_dead').setScale(0.7).setDepth(1);
     this.initialEnemy = 30;
 
@@ -232,7 +232,7 @@ export default class Level1Scene extends Phaser.Scene {
     if (this.fires == 7) {
       this.scene.start('GameOverScene');
       return;
-    } else if (this.count == 0 && this.array[0].rice >=15){
+    } else if (this.count == 0){
       this.scene.start('GameWinScene', {total_count: this.array[0].rice, enemy_total: 30});
       return;
     }

@@ -233,7 +233,7 @@ export default class Level1Scene extends Phaser.Scene {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0){
-      this.scene.start('GameWinScene', {total_count: this.array[0].rice, enemy_total: 30});
+      this.scene.start('GameWinScene', {total_count: this.array[0].rice, enemy_total: 30, level:1});
       return;
     }
 

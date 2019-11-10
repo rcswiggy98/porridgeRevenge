@@ -481,7 +481,7 @@ export default class Level4 extends Phaser.Scene {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0) {
-      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:72});
+      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:72, level:3});
       return;
     }
 

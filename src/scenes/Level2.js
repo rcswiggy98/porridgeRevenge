@@ -360,7 +360,7 @@ export default class Level2 extends Phaser.Scene {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0) {
-      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:60});
+      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:60, level:2});
       return;
     }
 

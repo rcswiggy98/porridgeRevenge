@@ -124,17 +124,6 @@ export default class Level3 extends Phaser.Scene {
     this.chop = this.sound.add("chop");
     this.water = this.sound.add("water");
 
-    // create background music
-    var musicConfig = {
-      mute: false,
-      volume: 1,
-      rate: 1,
-      detune: 0,
-      seek: 0,
-      loop: true,
-      delay: 0
-    }
-    //this.background.play(musicConfig);
 
     // add group for faucet water bullets
     this.water_bullets = this.physics.add.group({

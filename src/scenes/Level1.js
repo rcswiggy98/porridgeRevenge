@@ -228,7 +228,7 @@ export default class Level1Scene extends Phaser.Scene {
     var frate_faucet = 500;
 
     //Game over
-    if (this.fires == 7) {
+    if (this.fires >= 7) {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0){

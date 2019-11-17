@@ -502,7 +502,7 @@ export default class Level4 extends Phaser.Scene {
     // winning condition check
     this.total_count = this.array[0].rice + this.array[1].egg + this.array[2].ham
 
-    if (this.fires == 7) {
+    if (this.fires >= 7) {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0) {

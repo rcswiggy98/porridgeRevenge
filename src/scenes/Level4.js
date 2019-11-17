@@ -105,10 +105,12 @@ export default class Level4 extends Phaser.Scene {
     this.score = 0;
 
     // add text
+    this.rightClickboard = this.add.text(1385, 100, 'Remaing Objectives', { fontSize: '40px', fill: '#000000' }).setDepth(1);
+
     this.riceText = this.add.text(1400, 150, 'Rice Coming: ', { fontSize: '50px', fill: '#000000' }).setDepth(1);
     this.eggText = this.add.text(1400, 200, 'Egg Coming: ', { fontSize: '50px', fill: '#000000' }).setDepth(1);
     this.hamText = this.add.text(1400, 250, 'Ham Coming: ', { fontSize: '50px', fill: '#000000' }).setDepth(1);
-    this.tText = this.add.text(105, 150, "Target Ingredients", { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.tText = this.add.text(105, 100, "Target Ingredients", { fontSize: '40px', fill: '#000000' }).setDepth(1);
 
     this.riceView = this.add.sprite(210, 300, 'rice_dead').setScale(0.6).setDepth(1);
     this.eggTopView = this.add.sprite(210, 450, 'egg_top_dead').setScale(0.6).setDepth(1);

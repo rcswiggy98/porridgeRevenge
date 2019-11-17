@@ -325,7 +325,7 @@ export default class Level2 extends Phaser.Scene {
     // set speed of enemy and assign events
     var speed = 2;
     // firing rate for faucet in miliseconds
-    var frate_faucet = 300;
+    var frate_faucet = 500;
 
     // collision for water bullets
     this.set_proj_collision_rice(this.water_bullets, this.rice)
@@ -360,7 +360,7 @@ export default class Level2 extends Phaser.Scene {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0) {
-      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:60});
+      this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:60, level:2});
       return;
     }
 

@@ -92,7 +92,7 @@ export default class LevelT extends Phaser.Scene {
     this.mouse = this.add.sprite(1600, 220, 'mouse').setScale(0.4).setDepth(1);
     this.wasd = this.add.sprite(325, 275, 'wasd').setScale(0.6).setDepth(1);
     this.space = this.add.sprite(325, 500, 'space').setScale(0.6).setDepth(1);
-    this.fireL = this.add.sprite(1600, 500, 'fire').setScale(0.3).setDepth(1);
+    this.fireL = this.add.sprite(1600, 440, 'fire').setScale(0.3).setDepth(1);
 
     // add faucet
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
@@ -106,7 +106,8 @@ export default class LevelT extends Phaser.Scene {
     this.score = 0;
     this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#550' });
     this.riceText = this.add.text(1400, 115, 'Left click to chop', { fontSize: '32px', fill: '#000000' }).setDepth(1);
-    this.eggText = this.add.text(1400, 320, 'Protect the fire by\nPut rebal army into\nthe pot using faucet', { fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.eggText = this.add.text(1400, 320, 'You will lose fire if\nyou let anyone escape', { fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.dText = this.add.text(1400, 500, 'Game would be over if\nall fire are gone', { fontSize: '32px', fill: '#000000' }).setDepth(1);
     this.tText = this.add.text(125, 115, "Use 'A' and 'D' to\ncontrol the faucet\n\n\n\n\n\n\nUse 'SPACE' to shoot", { fontSize: '32px', fill: '#000000' }).setDepth(1);
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed
@@ -170,16 +171,16 @@ export default class LevelT extends Phaser.Scene {
 
     // delay the enemies
     this.timer_rice = this.time.addEvent({
-      delay: 2500,
+      delay: 7500,
       callback: this.shoot_rice,
       callbackScope: this,
-      repeat: 50
+      repeat: 10
     });
     this.timer_egg = this.time.addEvent({
-      delay: 5000,
+      delay: 10000,
       callback: this.shoot_egg,
       callbackScope: this,
-      repeat: 15,
+      repeat: 5,
       startAt: -2200
     })
     // add animations to enemy
@@ -307,7 +308,7 @@ export default class LevelT extends Phaser.Scene {
     // *********end enemy stuff*************
 
     // count to trigger game over scene
-    this.count = 45
+    this.count = 15
 
     // add knife
     this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
@@ -576,15 +577,15 @@ export default class LevelT extends Phaser.Scene {
             null,
             this
           );
-          if (p.y < 0) {
-            p.destroy();
-          } else if (p.y > this.cameras.main.height) {
-            p.destroy();
-          } else if (p.x < 0) {
-            p.destroy();
-          } else if (p.x > this.cameras.main.width) {
-            p.destroy();
-          }
+          // if (p.y < 0) {
+          //   p.destroy();
+          // } else if (p.y > this.cameras.main.height) {
+          //   p.destroy();
+          // } else if (p.x < 0) {
+          //   p.destroy();
+          // } else if (p.x > this.cameras.main.width) {
+          //   p.destroy();
+          // }
         }
       }.bind(this)
     );
@@ -612,15 +613,15 @@ export default class LevelT extends Phaser.Scene {
             null,
             this
           );
-          if (p.y < 0) {
-            p.destroy();
-          } else if (p.y > this.cameras.main.height) {
-            p.destroy();
-          } else if (p.x < 0) {
-            p.destroy();
-          } else if (p.x > this.cameras.main.width) {
-            p.destroy();
-          }
+          // if (p.y < 0) {
+          //   p.destroy();
+          // } else if (p.y > this.cameras.main.height) {
+          //   p.destroy();
+          // } else if (p.x < 0) {
+          //   p.destroy();
+          // } else if (p.x > this.cameras.main.width) {
+          //   p.destroy();
+          // }
         }
       }.bind(this)
     );
@@ -648,15 +649,15 @@ export default class LevelT extends Phaser.Scene {
             null,
             this
           );
-          if (p.y < 0) {
-            p.destroy();
-          } else if (p.y > this.cameras.main.height) {
-            p.destroy();
-          } else if (p.x < 0) {
-            p.destroy();
-          } else if (p.x > this.cameras.main.width) {
-            p.destroy();
-          }
+          // if (p.y < 0) {
+          //   p.destroy();
+          // } else if (p.y > this.cameras.main.height) {
+          //   p.destroy();
+          // } else if (p.x < 0) {
+          //   p.destroy();
+          // } else if (p.x > this.cameras.main.width) {
+          //   p.destroy();
+          // }
         }
       }.bind(this)
     );

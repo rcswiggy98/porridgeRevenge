@@ -7,6 +7,8 @@ export default class PickLevel extends Phaser.Scene {
 
   init (data) {
     // Initialization code goes here
+    this.level = data.level
+    this.star = data.star
   }
 
   preload () {
@@ -16,6 +18,9 @@ export default class PickLevel extends Phaser.Scene {
     this.load.image('soup1', './assets/UI/soup1.png');
     this.load.image('soup2', './assets/UI/soup2.png');
     this.load.image('soup3', './assets/UI/soup3.png');
+    this.load.image('star1', './assets/UI/star1.png');
+    this.load.image('star2', './assets/UI/star2.png');
+    this.load.image('star3', './assets/UI/star3.png');
 
 
     // Declare variables for center of the scene
@@ -46,31 +51,64 @@ export default class PickLevel extends Phaser.Scene {
 
     //Create the scene and add text
     var background = this.add.image(this.centerX, this.centerY, 'pick');
+    this.star1;
+    this.star2;
+    this.star3;
+
     var levelT = this.add.image(this.centerX, this.centerY, 'soupT').setScale(0.6).setInteractive();
     levelT.on("pointerup",function(){
       this.scene.start("LevelT");
     }, this
-  );
+    );
+
     var level1 = this.add.image(this.centerX-400, this.centerY+200, 'soup1').setScale(0.6).setInteractive();
     level1.on("pointerup",function(){
       this.scene.start("Level1");
     }, this
-  );
+    );
+
     var level2 = this.add.image(this.centerX, this.centerY+200, 'soup2').setScale(0.6).setInteractive();
     level2.on("pointerup",function(){
       this.scene.start("Level2");
     }, this
-  );
+    );
+
     var level3 = this.add.image(this.centerX+400, this.centerY+200, 'soup3').setScale(0.6).setInteractive();
     level3.on("pointerup",function(){
     this.scene.start("Level4");
     }, this
-  );
-
+    );
   }
-
 
   update (time, delta) {
     // Update the scene
+    if (this.level ==1 && this.star == 1){
+      this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star1').setScale(0.2);
+    }
+    if (this.level ==1 && this.star == 2){
+      this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star2').setScale(0.2);
+    }
+    if (this.level ==1 && this.star == 3){
+      this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star3').setScale(0.2);
+    }
+    if (this.level ==2 && this.star == 1){
+      this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star1').setScale(0.2);
+    }
+    if (this.level ==2 && this.star == 2){
+      this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star2').setScale(0.2);
+    }
+    if (this.level ==2 && this.star == 3){
+      this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star3').setScale(0.2);
+    }
+    if (this.level ==3 && this.star == 1){
+      this.star3 = this.add.image(this.centerX+430, this.centerY+300, 'star1').setScale(0.2);
+    }
+    if (this.level ==3 && this.star == 2){
+      this.star3 = this.add.image(this.centerX+430, this.centerY+300, 'star2').setScale(0.2);
+    }
+    if (this.level ==3 && this.star == 3){
+      this.star3 = this.add.image(this.centerX+430, this.centerY+300, 'star3').setScale(0.2);
+    }
   }
+
 }

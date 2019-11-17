@@ -226,14 +226,14 @@ export default class Level1Scene extends Phaser.Scene {
     // set speed of enemy and assign events
     var speed = 2;
     // firing rate for faucet in miliseconds
-    var frate_faucet = 300;
+    var frate_faucet = 500;
 
     //Game over
     if (this.fires == 7) {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0){
-      this.scene.start('GameWinScene', {total_count: this.array[0].rice, enemy_total: 30});
+      this.scene.start('GameWinScene', {total_count: this.array[0].rice, enemy_total: 30, level:1});
       return;
     }
 
@@ -360,15 +360,15 @@ export default class Level1Scene extends Phaser.Scene {
             null,
             this
           );
-          if (p.y < 0) {
-            p.destroy();
-          } else if (p.y > this.cameras.main.height) {
-            p.destroy();
-          } else if (p.x < 0) {
-            p.destroy();
-          } else if (p.x > this.cameras.main.width) {
-            p.destroy();
-          }
+          // if (p.y < 0) {
+          //   p.destroy();
+          // } else if (p.y > this.cameras.main.height) {
+          //   p.destroy();
+          // } else if (p.x < 0) {
+          //   p.destroy();
+          // } else if (p.x > this.cameras.main.width) {
+          //   p.destroy();
+          // }
         }
       }.bind(this)
     );

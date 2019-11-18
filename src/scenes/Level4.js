@@ -74,6 +74,7 @@ export default class Level4 extends Phaser.Scene {
     this.load.image('knife', "./assets/player/knife.png");
     this.load.image('rice_dead', "./assets/enemy/rice.png");
     this.load.image('upgrade', "./assets/UI/upGrade.png");
+    this.load.image('upgradeK', "./assets/UI/upGrade.png");
     this.load.image('fireSingle', "./assets/background/fireSingle.png");
 
     // Declare variables for center of the scene
@@ -367,7 +368,7 @@ export default class Level4 extends Phaser.Scene {
 
     // add knife
     this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
-    this.knife.setScale(0.5);
+    this.knife.setScale(0.3);
     //this.knife_chopping = false;
     this.knife.setOrigin(0.9, 0.75)
     // knife chop tween
@@ -451,6 +452,7 @@ export default class Level4 extends Phaser.Scene {
     this.set_proj_collision_ham_slice(this.water_bullets, this.ham_slice)
     // collision for upgrade and faucet
     this.set_proj_collision_upgrade(this.upgrade, this.faucet)
+    this.set_proj_collision_upgradeK(this.upgrade, this.knife)
 
     // trigger upgrade to appear
     if (pointer.isDown && ~this.tw.isPlaying()) {
@@ -464,7 +466,16 @@ export default class Level4 extends Phaser.Scene {
         this.upgrade.setCollideWorldBounds(true);
         this.upgrade.setVelocity(Phaser.Math.Between(-200, 200), 20);
         this.upgrade.setGravityY(100);
+        this.upgradeK = this.physics.add.sprite(300, 16, "upgradeK").setScale(0.2).setDepth(1);
+        this.upgradeK.setBounce(1);
+        this.upgradeK.setCollideWorldBounds(true);
+        this.upgradeK.setVelocity(Phaser.Math.Between(-200, 200), 20);
+        this.upgradeK.setGravityY(100);
       }
+    }
+
+    if (this.bigger_knife == true){
+      this.knife.setScale(0.5)
     }
 
     this.egg.children.iterate(function(child) {
@@ -550,6 +561,11 @@ export default class Level4 extends Phaser.Scene {
     this.faster_bullet = true;
     this.waterCount += 50;
     this.upgrade.disableBody(true,true);
+  }
+
+  hitUpgradeK(knife, upgradeK){
+    this.bigger_knife = true
+    this.upgradeK.disableBody(true,true)
   }
 
   // generate water bullets
@@ -765,6 +781,16 @@ export default class Level4 extends Phaser.Scene {
       this.faucet,
       this.upgrade,
       this.hitUpgrade,
+      null,
+      this
+    );
+  }
+
+  set_proj_collision_upgradeK(upgradeK, knife){
+    this.physics.add.overlap(
+      this.knife,
+      this.upgradeK,
+      this.hitUpgradeK,
       null,
       this
     );

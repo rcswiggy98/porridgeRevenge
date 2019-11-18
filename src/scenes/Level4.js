@@ -74,7 +74,7 @@ export default class Level4 extends Phaser.Scene {
     this.load.image('knife', "./assets/player/knife.png");
     this.load.image('rice_dead', "./assets/enemy/rice.png");
     this.load.image('upgrade', "./assets/UI/upGrade.png");
-    this.load.image('upgradeK', "./assets/UI/upGrade.png");
+    this.load.image('upgradeK', "./assets/UI/upGradeK.png");
     this.load.image('fireSingle', "./assets/background/fireSingle.png");
 
     // Declare variables for center of the scene

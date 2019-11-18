@@ -519,9 +519,13 @@ export default class Level4 extends Phaser.Scene {
     this.total_count = this.array[0].rice + this.array[1].egg + this.array[2].ham
 
     if (this.fires >= 7 || this.waterCount == 0) {
+      this.faster_bullet = false;
+      this.bigger_knife = false;
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0) {
+      this.faster_bullet = false;
+      this.bigger_knife = false;
       this.scene.start('GameWinScene', {total_count: this.total_count, enemy_total:72, level:3});
       return;
     }

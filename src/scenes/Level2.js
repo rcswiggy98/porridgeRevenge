@@ -364,7 +364,7 @@ export default class Level2 extends Phaser.Scene {
     // winning condition check
     this.total_count = this.array[0].rice + this.array[1].egg
 
-    if (this.fires >= 7) {
+    if (this.fires >= 7 || this.waterCount == 0) {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0) {
@@ -552,15 +552,15 @@ export default class Level2 extends Phaser.Scene {
             null,
             this
           );
-          // if (p.y < 0) {
-          //   p.destroy();
-          // } else if (p.y > this.cameras.main.height) {
-          //   p.destroy();
-          // } else if (p.x < 0) {
-          //   p.destroy();
-          // } else if (p.x > this.cameras.main.width) {
-          //   p.destroy();
-          // }
+          if (p.y < 0) {
+            p.destroy();
+          } else if (p.y > this.cameras.main.height) {
+            p.destroy();
+          } else if (p.x < 0) {
+            p.destroy();
+          } else if (p.x > this.cameras.main.width) {
+            p.destroy();
+          }
         }
       }.bind(this)
     );
@@ -589,15 +589,15 @@ export default class Level2 extends Phaser.Scene {
             null,
             this
           );
-          // if (p.y < 0) {
-          //   p.destroy();
-          // } else if (p.y > this.cameras.main.height) {
-          //   p.destroy();
-          // } else if (p.x < 0) {
-          //   p.destroy();
-          // } else if (p.x > this.cameras.main.width) {
-          //   p.destroy();
-          // }
+          if (p.y < 0) {
+            p.destroy();
+          } else if (p.y > this.cameras.main.height) {
+            p.destroy();
+          } else if (p.x < 0) {
+            p.destroy();
+          } else if (p.x > this.cameras.main.width) {
+            p.destroy();
+          }
         }
       }.bind(this)
     );
@@ -625,15 +625,15 @@ export default class Level2 extends Phaser.Scene {
             null,
             this
           );
-          // if (p.y < 0) {
-          //   p.destroy();
-          // } else if (p.y > this.cameras.main.height) {
-          //   p.destroy();
-          // } else if (p.x < 0) {
-          //   p.destroy();
-          // } else if (p.x > this.cameras.main.width) {
-          //   p.destroy();
-          // }
+          if (p.y < 0) {
+            p.destroy();
+          } else if (p.y > this.cameras.main.height) {
+            p.destroy();
+          } else if (p.x < 0) {
+            p.destroy();
+          } else if (p.x > this.cameras.main.width) {
+            p.destroy();
+          }
         }
       }.bind(this)
     );

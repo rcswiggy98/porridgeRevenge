@@ -114,7 +114,7 @@ export default class Level4 extends Phaser.Scene {
     // scoring
     this.score = 0;
 
-    // add text
+    // add UI
     this.rightClickboard1 = this.add.text(1385, 100, 'Remaining Ingredients', { fontSize: '40px', fill: '#000000' }).setDepth(1);
     this.riceR = this.add.sprite(1450, 175, 'rice_dead').setScale(0.3).setDepth(1);
     this.riceText = this.add.text(1475, 175, 'Rice: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
@@ -433,7 +433,12 @@ export default class Level4 extends Phaser.Scene {
     // set speed of enemy and assign events
     var speed = 2;
     // firing rate for faucet in miliseconds
-    var frate_faucet = 400;
+    if (this.faster_bullet){
+      var frate_faucet = 100;
+    } else {
+      var frate_faucet = 400;
+    }
+
 
     // collision for water bullets
     this.set_proj_collision_rice(this.water_bullets, this.rice)
@@ -502,7 +507,7 @@ export default class Level4 extends Phaser.Scene {
     // winning condition check
     this.total_count = this.array[0].rice + this.array[1].egg + this.array[2].ham
 
-    if (this.fires >= 7) {
+    if (this.fires >= 7 || this.waterCount == 0) {
       this.scene.start('GameOverScene');
       return;
     } else if (this.count == 0) {
@@ -531,10 +536,10 @@ export default class Level4 extends Phaser.Scene {
     // knife controls
     var X = pointer.worldX;
     var Y = pointer.worldY;
-    this.knife.x = X
-    this.knife.y = Y
+    this.knife.x = X;
+    this.knife.y = Y;
     if (pointer.isDown && ~this.tw.isPlaying()) {
-      this.knife_lctime = Phaser.Math.Wrap(time, 0, 5000)
+      this.knife_lctime = Phaser.Math.Wrap(time, 0, 5000);
       this.tw.play();
       this.chop.play();
     }
@@ -542,8 +547,9 @@ export default class Level4 extends Phaser.Scene {
 
   // collide function for faucet and upGrade
   hitUpgrade(faucet, upgrade){
-    this.faster_bullet = true
-    this.upgrade.disableBody(true,true)
+    this.faster_bullet = true;
+    this.waterCount += 50;
+    this.upgrade.disableBody(true,true);
   }
 
   // generate water bullets
@@ -776,15 +782,15 @@ export default class Level4 extends Phaser.Scene {
             null,
             this
           );
-          // if (p.y < 0) {
-          //   p.destroy();
-          // } else if (p.y > this.cameras.main.height) {
-          //   p.destroy();
-          // } else if (p.x < 0) {
-          //   p.destroy();
-          // } else if (p.x > this.cameras.main.width) {
-          //   p.destroy();
-          // }
+          if (p.y < 0) {
+            p.destroy();
+          } else if (p.y > this.cameras.main.height) {
+            p.destroy();
+          } else if (p.x < 0) {
+            p.destroy();
+          } else if (p.x > this.cameras.main.width) {
+            p.destroy();
+          }
         }
       }.bind(this)
     );
@@ -812,15 +818,15 @@ export default class Level4 extends Phaser.Scene {
             null,
             this
           );
-          // if (p.y < 0) {
-          //   p.destroy();
-          // } else if (p.y > this.cameras.main.height) {
-          //   p.destroy();
-          // } else if (p.x < 0) {
-          //   p.destroy();
-          // } else if (p.x > this.cameras.main.width) {
-          //   p.destroy();
-          // }
+          if (p.y < 0) {
+            p.destroy();
+          } else if (p.y > this.cameras.main.height) {
+            p.destroy();
+          } else if (p.x < 0) {
+            p.destroy();
+          } else if (p.x > this.cameras.main.width) {
+            p.destroy();
+          }
         }
       }.bind(this)
     );
@@ -848,15 +854,15 @@ export default class Level4 extends Phaser.Scene {
             null,
             this
           );
-          // if (p.y < 0) {
-          //   p.destroy();
-          // } else if (p.y > this.cameras.main.height) {
-          //   p.destroy();
-          // } else if (p.x < 0) {
-          //   p.destroy();
-          // } else if (p.x > this.cameras.main.width) {
-          //   p.destroy();
-          // }
+          if (p.y < 0) {
+            p.destroy();
+          } else if (p.y > this.cameras.main.height) {
+            p.destroy();
+          } else if (p.x < 0) {
+            p.destroy();
+          } else if (p.x > this.cameras.main.width) {
+            p.destroy();
+          }
         }
       }.bind(this)
     );
@@ -884,15 +890,15 @@ export default class Level4 extends Phaser.Scene {
             null,
             this
           );
-          // if (p.y < 0) {
-          //   p.destroy();
-          // } else if (p.y > this.cameras.main.height) {
-          //   p.destroy();
-          // } else if (p.x < 0) {
-          //   p.destroy();
-          // } else if (p.x > this.cameras.main.width) {
-          //   p.destroy();
-          // }
+          if (p.y < 0) {
+            p.destroy();
+          } else if (p.y > this.cameras.main.height) {
+            p.destroy();
+          } else if (p.x < 0) {
+            p.destroy();
+          } else if (p.x > this.cameras.main.width) {
+            p.destroy();
+          }
         }
       }.bind(this)
     );

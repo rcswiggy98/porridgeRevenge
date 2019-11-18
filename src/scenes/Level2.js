@@ -88,7 +88,7 @@ export default class Level2 extends Phaser.Scene {
     this.faucet_lftime = 0.0; // last time faucet fired water mod 5000
     this.faucet.setCollideWorldBounds(true)
     this.fires = 0;
-    this.waterCount = 30;
+    this.waterCount = 15;
     this.initialEnemy = 30;
 
     // scoring

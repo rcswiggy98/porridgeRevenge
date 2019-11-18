@@ -82,32 +82,29 @@ export default class PickLevel extends Phaser.Scene {
 
   update (time, delta) {
     // Update the scene
-    if (this.level ==1 && this.star == 1){
-      this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star1').setScale(0.2);
+    switch(this.registry.get('level_1_hs')) {
+      case 1: this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star1').setScale(0.2); 
+        break;
+      case 2: this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star2').setScale(0.2);
+        break;
+      case 3: this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star3').setScale(0.2);
+        break;
     }
-    if (this.level ==1 && this.star == 2){
-      this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star2').setScale(0.2);
+    switch(this.registry.get('level_2_hs')){
+      case 1: this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star1').setScale(0.2);
+        break;
+      case 2: this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star2').setScale(0.2);
+        break;
+      case 3: this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star3').setScale(0.2);
+        break;
     }
-    if (this.level ==1 && this.star == 3){
-      this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star3').setScale(0.2);
-    }
-    if (this.level ==2 && this.star == 1){
-      this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star1').setScale(0.2);
-    }
-    if (this.level ==2 && this.star == 2){
-      this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star2').setScale(0.2);
-    }
-    if (this.level ==2 && this.star == 3){
-      this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star3').setScale(0.2);
-    }
-    if (this.level ==3 && this.star == 1){
-      this.star3 = this.add.image(this.centerX+430, this.centerY+300, 'star1').setScale(0.2);
-    }
-    if (this.level ==3 && this.star == 2){
-      this.star3 = this.add.image(this.centerX+430, this.centerY+300, 'star2').setScale(0.2);
-    }
-    if (this.level ==3 && this.star == 3){
-      this.star3 = this.add.image(this.centerX+430, this.centerY+300, 'star3').setScale(0.2);
+    switch(this.registry.get('level_3_hs')) {
+      case 1: this.star3 = this.add.image(this.centerX+430, this.centerY+300, 'star1').setScale(0.2);
+        break;
+      case 2: this.star3 = this.add.image(this.centerX+430, this.centerY+300, 'star2').setScale(0.2);
+        break;
+      case 3: this.star3 = this.add.image(this.centerX+430, this.centerY+300, 'star3').setScale(0.2);
+        break;
     }
   }
 

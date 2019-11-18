@@ -115,7 +115,7 @@ export default class Level4 extends Phaser.Scene {
     this.score = 0;
 
     // add text
-    this.rightClickboard1 = this.add.text(1385, 100, 'Remaing Ingredients', { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.rightClickboard1 = this.add.text(1385, 100, 'Remaining Ingredients', { fontSize: '40px', fill: '#000000' }).setDepth(1);
     this.riceR = this.add.sprite(1450, 175, 'rice_dead').setScale(0.3).setDepth(1);
     this.riceText = this.add.text(1475, 175, 'Rice: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
     this.eggR = this.add.sprite(1450, 250, 'egg_dead').setScale(0.2).setDepth(1);
@@ -123,7 +123,7 @@ export default class Level4 extends Phaser.Scene {
     this.hamR = this.add.sprite(1450, 325,'ham_dead').setScale(0.1).setDepth(1);
     this.hamText = this.add.text(1475, 325, 'Ham: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
 
-    this.rightClickboard2 = this.add.text(1385, 350, 'Remaing Stamina', { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.rightClickboard2 = this.add.text(1385, 350, 'Remaining Stamina', { fontSize: '40px', fill: '#000000' }).setDepth(1);
     this.waterR = this.add.sprite(1450, 425, 'water_bullet').setScale(0.5).setDepth(1);
     this.waterText = this.add.text(1475, 425, 'Water: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
     this.fireR = this.add.sprite(1450, 500, 'fireSingle').setScale(0.3).setDepth(1);

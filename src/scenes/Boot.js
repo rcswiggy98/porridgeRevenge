@@ -38,10 +38,11 @@ export default class BootScene extends Phaser.Scene {
     }
     this.background_music.play(musicConfig);
 
-    //Create the scene and add text
+    // Create the scene and add text
     var background = this.add.image(this.centerX, this.centerY, 'ui');
 
-
+    // Add scoring keys to registry
+    this.registry.set({level_1_hs: 0, level_2_hs: 0, level_3_hs: 0})
     }
 
   update (time, delta) {

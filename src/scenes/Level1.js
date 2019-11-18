@@ -225,7 +225,7 @@ export default class Level1Scene extends Phaser.Scene {
     // set speed of enemy and assign events
     var speed = 2;
     // firing rate for faucet in miliseconds
-    var frate_faucet = 100;
+    var frate_faucet = 400;
 
     //Game over
     if (this.fires >= 7 || this.waterCount == 0) {

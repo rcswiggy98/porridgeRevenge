@@ -476,6 +476,8 @@ export default class Level4 extends Phaser.Scene {
 
     if (this.bigger_knife == true){
       this.knife.setScale(0.5)
+    } else if (this.bigger_knife == false){
+      this.knife.setScale(0.3)
     }
 
     this.egg.children.iterate(function(child) {

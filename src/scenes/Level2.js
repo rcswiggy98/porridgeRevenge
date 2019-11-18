@@ -378,7 +378,7 @@ export default class Level2 extends Phaser.Scene {
     } else if (keys.right.isDown) {
       this.faucet.x += faucet_speed;
     }
-    if (keys.space.isDown) {
+    if (keys.space.isDown || keys.up.isDown) {
       // get the current timestamp mod 5000
       var mod_time = Phaser.Math.Wrap(time, 0, 5000)
       // we only fire another shot if time > firing rate has elapsed

@@ -448,7 +448,7 @@ export default class Level4 extends Phaser.Scene {
     this.eggBar.setScale(this.eggCount/12, 1).setX(420 - this.eggBar.width/2 + this.eggBar.displayWidth/2);
     this.hamBar.setScale(this.hamCount/2, 1).setX(420 - this.hamBar.width/2 + this.hamBar.displayWidth/2);
     this.waterBar.setScale(this.waterCount/15, 1).setX(420 - this.waterBar.width/2 + this.waterBar.displayWidth/2);
-    this.fireBar.setScale((7 - this.fires)/7, 1).setX(420 - this.fire.width/2 + this.fireBar.displayWidth/2);
+    this.fireBar.setScale((7 - this.fires)/7, 1).setX(420 - this.fireBar.width/2 + this.fireBar.displayWidth/2);
 
 
 

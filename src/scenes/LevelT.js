@@ -96,7 +96,7 @@ export default class LevelT extends Phaser.Scene {
     const stove = this.add.sprite(1400, 375 , 'stove');
     const board = this.add.sprite(1920 / 2, 900 , 'board');
     this.riceText = this.add.text(1200, 1000, 'Press "0" to skip', { fontSize: '64px', fill: '#000000' }).setDepth(1);
-    const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
+    //const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
     const clickboard = this.add.sprite(500, 325 , 'clickboard2').setScale(1.1).setDepth(1);
     const pot = this.add.sprite(1400, 300 , 'pot').setScale(0.8).setDepth(1);
     this.fire = this.add.sprite(1400, 500, 'fire').setScale(0.8).setDepth(1);
@@ -191,16 +191,16 @@ export default class LevelT extends Phaser.Scene {
 
     // delay the enemies
     this.timer_rice = this.time.addEvent({
-      delay: 7500,
+      delay: 12000,
       callback: this.shoot_rice,
       callbackScope: this,
-      repeat: 10
+      repeat: 5
     });
     this.timer_egg = this.time.addEvent({
-      delay: 10000,
+      delay: 12500,
       callback: this.shoot_egg,
       callbackScope: this,
-      repeat: 5,
+      repeat: 3,
       startAt: -2200
     })
     // add animations to enemy
@@ -322,7 +322,7 @@ export default class LevelT extends Phaser.Scene {
     // *********end enemy stuff*************
 
     // count to trigger game over scene
-    this.count = 15
+    this.count = 8
 
     // add knife
     this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(3)

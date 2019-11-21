@@ -46,7 +46,7 @@ export default class Level2 extends Phaser.Scene {
     });
 
     this.load.image('clickboard1', "./assets/background/clickboard.png");
-    this.load.image('clickboard2', "./assets/background/clickboard.png");
+    this.load.image('clickboard2', "./assets/background/clickboard2.png");
     this.load.image('board', "./assets/background/board.png");
     this.load.image('pot', "./assets/background/pot.png");
     this.load.image('stove', "./assets/background/stove.png");
@@ -55,6 +55,11 @@ export default class Level2 extends Phaser.Scene {
     this.load.image('knife', "./assets/player/knife.png");
     this.load.image('rice_dead', "./assets/enemy/rice.png");
     this.load.image('fireSingle', "./assets/background/fireSingle.png");
+    this.load.image('Bar', "./assets/UI/Bar.png");
+    this.load.image('riceBar', "./assets/UI/riceBar.png");
+    this.load.image('eggBar', "./assets/UI/eggBar.png");
+    this.load.image('waterBar', "./assets/UI/waterBar.png");
+    this.load.image('fireBar', "./assets/UI/fireBar.png");
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
@@ -75,12 +80,12 @@ export default class Level2 extends Phaser.Scene {
 
     // add background
 
-    const stove = this.add.sprite(1920 / 2, 375 , 'stove');
+    const stove = this.add.sprite(1400, 375 , 'stove');
     const board = this.add.sprite(1920 / 2, 900 , 'board');
-    const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
-    const clickboard2 = this.add.sprite(1920 * 5 / 6, 325 , 'clickboard2').setScale(1.1).setDepth(1);
-    const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.8).setDepth(1);
-    this.fire = this.add.sprite(1920 / 2, 500, 'fire').setScale(0.8).setDepth(1);
+    //const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
+    const clickboard2 = this.add.sprite(500, 325 , 'clickboard2').setScale(1.1).setDepth(1);
+    const pot = this.add.sprite(1400, 300 , 'pot').setScale(0.8).setDepth(1);
+    this.fire = this.add.sprite(1400, 500, 'fire').setScale(0.8).setDepth(1);
 
     // add faucet
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
@@ -93,23 +98,34 @@ export default class Level2 extends Phaser.Scene {
 
     // scoring
     this.score = 0;
-    this.rightClickboard1 = this.add.text(1385, 100, 'Remaining Ingredients', { fontSize: '40px', fill: '#000000' }).setDepth(1);
-    this.riceR = this.add.sprite(1450, 175, 'rice_dead').setScale(0.3).setDepth(1);
-    this.riceText = this.add.text(1475, 175, 'Rice: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
-    this.eggR = this.add.sprite(1450, 250, 'egg_dead').setScale(0.2).setDepth(1);
-    this.eggText = this.add.text(1475, 250, 'Egg: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
 
-    this.rightClickboard2 = this.add.text(1385, 350, 'Remaining Stamina', { fontSize: '40px', fill: '#000000' }).setDepth(1);
-    this.waterR = this.add.sprite(1450, 425, 'water_bullet').setScale(0.5).setDepth(1);
-    this.waterText = this.add.text(1475, 425, 'Water: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
-    this.fireR = this.add.sprite(1450, 500, 'fireSingle').setScale(0.3).setDepth(1);
-    this.fireText = this.add.text(1475, 500, 'Fire: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
-    this.tText = this.add.text(105, 100, "Target Ingredients", { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.rightClickboard1 = this.add.text(125, 100, 'Remaining Ingredients', { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.riceR = this.add.sprite(150, 175, 'rice_dead').setScale(0.3).setDepth(1);
+    this.riceText = this.add.text(690, 175, 'Rice: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+    this.eggR = this.add.sprite(150, 250, 'egg_dead').setScale(0.2).setDepth(1);
+    this.eggText = this.add.text(690, 250, 'Egg: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+
+    this.rightClickboard2 = this.add.text(125, 350, 'Remaining Stamina', { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.waterR = this.add.sprite(150, 425, 'water_bullet').setScale(0.5).setDepth(1);
+    this.waterText = this.add.text(690, 425, 'Water: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+    this.fireR = this.add.sprite(150, 500, 'fireSingle').setScale(0.3).setDepth(1);
+    this.fireText = this.add.text(690, 500, 'Fire: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+    //this.tText = this.add.text(105, 100, "Target Ingredients", { fontSize: '40px', fill: '#000000' }).setDepth(1);
+
+    this.Bar1 = this.add.sprite(420, 175,'Bar').setDepth(2);
+    this.Bar2 = this.add.sprite(420, 250,'Bar').setDepth(2);
+    //this.Bar3 = this.add.sprite(420, 325,'Bar').setDepth(2);
+    this.Bar4 = this.add.sprite(420, 425,'Bar').setDepth(2);
+    this.Bar5 = this.add.sprite(420, 500,'Bar').setDepth(2);
+    this.riceBar = this.add.sprite(420, 175,'riceBar').setDepth(1);
+    this.eggBar = this.add.sprite(420, 250,'eggBar').setDepth(1);
+    this.waterBar = this.add.sprite(420, 425,'waterBar').setDepth(1);
+    this.fireBar = this.add.sprite(420, 500,'fireBar').setDepth(1);
 
 
-    this.riceView = this.add.sprite(280, 300, 'rice_dead').setScale(0.6).setDepth(1);
-    this.eggTopView = this.add.sprite(210, 450, 'egg_top_dead').setScale(0.6).setDepth(1);
-    this.eggBottomView = this.add.sprite(360, 450, 'egg_bottom_dead').setScale(0.6).setDepth(1);
+    //this.riceView = this.add.sprite(280, 300, 'rice_dead').setScale(0.6).setDepth(1);
+    //this.eggTopView = this.add.sprite(210, 450, 'egg_top_dead').setScale(0.6).setDepth(1);
+    //this.eggBottomView = this.add.sprite(360, 450, 'egg_bottom_dead').setScale(0.6).setDepth(1);
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed
 
@@ -281,7 +297,7 @@ export default class Level2 extends Phaser.Scene {
     this.eggCount = 16
 
     // add knife
-    this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
+    this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(3);
     this.knife.setScale(0.3);
     //this.knife_chopping = false;
     this.knife.setOrigin(0.9, 0.75)
@@ -344,6 +360,10 @@ export default class Level2 extends Phaser.Scene {
     this.eggText.setText('Egg:' + this.eggCount);
     this.waterText.setText("Water: " + this.waterCount);
     this.fireText.setText("Fire: " + (7 - this.fires));
+    this.riceBar.setScale(this.riceCount/51, 1).setX(420 - this.riceBar.width/2 + this.riceBar.displayWidth/2);
+    this.eggBar.setScale(this.eggCount/16, 1).setX(420 - this.eggBar.width/2 + this.eggBar.displayWidth/2);
+    this.waterBar.setScale(this.waterCount/15, 1).setX(420 - this.waterBar.width/2 + this.waterBar.displayWidth/2);
+    this.fireBar.setScale((7 - this.fires)/7, 1).setX(420 - this.fireBar.width/2 + this.fireBar.displayWidth/2);
 
     this.egg.children.iterate(function(child) {
       // make sure child is not null, i.e. hasn't spawned yet
@@ -514,7 +534,7 @@ export default class Level2 extends Phaser.Scene {
     var rice_single = this.rice_dead.get();
     if (rice_single) {
       rice_single
-        .enableBody(true, 1920/2+200*Math.random()*this.rand_sign(), 240+70*Math.random()*this.rand_sign(), true, true)
+        .enableBody(true, 1400+200*Math.random()*this.rand_sign(), 240+70*Math.random()*this.rand_sign(), true, true)
         .setScale(0.3)
         .setDepth(1);
     }
@@ -525,7 +545,7 @@ export default class Level2 extends Phaser.Scene {
       var egg_single = this.egg_top_dead.get()
       if (egg_single) {
         egg_single
-          .enableBody(true, 1920/2+200*Math.random()*this.rand_sign(), 240+70*Math.random()*this.rand_sign(), true, true)
+          .enableBody(true, 1400+200*Math.random()*this.rand_sign(), 240+70*Math.random()*this.rand_sign(), true, true)
           .setScale(0.3)
           .setDepth(1);
       }
@@ -533,7 +553,7 @@ export default class Level2 extends Phaser.Scene {
       var egg_single = this.egg_bottom_dead.get()
       if (egg_single) {
         egg_single
-          .enableBody(true, 1920/2+200*Math.random()*this.rand_sign(), 240+70*Math.random()*this.rand_sign(), true, true)
+          .enableBody(true, 1400+200*Math.random()*this.rand_sign(), 240+70*Math.random()*this.rand_sign(), true, true)
           .setScale(0.3)
           .setDepth(1);
       }

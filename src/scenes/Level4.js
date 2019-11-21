@@ -103,7 +103,7 @@ export default class Level4 extends Phaser.Scene {
     // add background
     const stove = this.add.sprite(1400, 375 , 'stove');
     const board = this.add.sprite(1920 / 2, 900 , 'board');
-    const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
+    //const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
     const clickboard2 = this.add.sprite(500, 325 , 'clickboard2').setScale(1.1).setDepth(1);
     const pot = this.add.sprite(1400, 300 , 'pot').setScale(0.8).setDepth(1);
     this.fire = this.add.sprite(1400, 500, 'fire').setScale(0.8).setDepth(1);
@@ -147,7 +147,6 @@ export default class Level4 extends Phaser.Scene {
     this.hamBar = this.add.sprite(420, 325,'hamBar').setDepth(1);
     this.waterBar = this.add.sprite(420, 425,'waterBar').setDepth(1);
     this.fireBar = this.add.sprite(420, 500,'fireBar').setDepth(1);
-    this.Bar1.displayWidth = 475;
 
 
 
@@ -386,7 +385,7 @@ export default class Level4 extends Phaser.Scene {
     this.hamCount = 2
 
     // add knife
-    this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(1)
+    this.knife = this.physics.add.sprite(1920/2, 1080/2, 'knife').setDepth(3);
     this.knife.setScale(0.3);
     //this.knife_chopping = false;
     this.knife.setOrigin(0.9, 0.75)

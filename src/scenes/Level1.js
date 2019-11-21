@@ -22,7 +22,7 @@ export default class Level1Scene extends Phaser.Scene {
     });
 
     this.load.image('clickboard1', "./assets/background/clickboard.png");
-    this.load.image('clickboard2', "./assets/background/clickboard.png");
+    this.load.image('clickboard2', "./assets/background/clickboard2.png");
     this.load.image('board', "./assets/background/board.png");
     this.load.image('pot', "./assets/background/pot.png");
     this.load.image('stove', "./assets/background/stove.png");
@@ -31,6 +31,11 @@ export default class Level1Scene extends Phaser.Scene {
     this.load.image('fireSingle', "./assets/background/fireSingle.png");
     // this.load.image('knife', "./assets/player/knife.png");
     this.load.image('rice_dead', "./assets/enemy/rice.png");
+    this.load.image('Bar', "./assets/UI/Bar.png");
+    this.load.image('riceBar', "./assets/UI/riceBar.png");
+    this.load.image('eggBar', "./assets/UI/eggBar.png");
+    this.load.image('waterBar', "./assets/UI/waterBar.png");
+    this.load.image('fireBar', "./assets/UI/fireBar.png");
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
@@ -51,12 +56,12 @@ export default class Level1Scene extends Phaser.Scene {
 
     // add background
 
-    const stove = this.add.sprite(1920 / 2, 375 , 'stove');
+    const stove = this.add.sprite(1400, 375 , 'stove');
     const board = this.add.sprite(1920 / 2, 900 , 'board');
-    const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
-    const clickboard2 = this.add.sprite(1920 * 5 / 6, 325 , 'clickboard2').setScale(1.1).setDepth(1);
-    const pot = this.add.sprite(1920 / 2, 300 , 'pot').setScale(0.8).setDepth(1);
-    this.fire = this.add.sprite(1920 / 2, 500, 'fire').setScale(0.8).setDepth(1);
+    //const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
+    const clickboard2 = this.add.sprite(500, 325 , 'clickboard2').setScale(1.1).setDepth(1);
+    const pot = this.add.sprite(1400, 300 , 'pot').setScale(0.8).setDepth(1);
+    this.fire = this.add.sprite(1400, 500, 'fire').setScale(0.8).setDepth(1);
 
     // add faucet
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
@@ -65,17 +70,27 @@ export default class Level1Scene extends Phaser.Scene {
     this.faucet.setCollideWorldBounds(true)
     this.score = 0;
     this.waterCount = 10
-    this.rightClickboard1 = this.add.text(1385, 100, 'Remaining Ingredients', { fontSize: '40px', fill: '#000000' }).setDepth(1);
-    this.riceR = this.add.sprite(1450, 175, 'rice_dead').setScale(0.3).setDepth(1);
-    this.riceText = this.add.text(1475, 175, 'Rice: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
 
-    this.rightClickboard2 = this.add.text(1385, 350, 'Remaining Stamina', { fontSize: '40px', fill: '#000000' }).setDepth(1);
-    this.waterR = this.add.sprite(1450, 425, 'water_bullet').setScale(0.5).setDepth(1);
-    this.waterText = this.add.text(1475, 425, 'Water: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
-    this.fireR = this.add.sprite(1450, 500, 'fireSingle').setScale(0.3).setDepth(1);
-    this.fireText = this.add.text(1475, 500, 'Fire: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
-    this.tText = this.add.text(105, 100, "Target Ingredients", { fontSize: '40px', fill: '#000000' }).setDepth(1);
-    this.riceView = this.add.sprite(200, 300, 'rice_dead').setScale(0.7).setDepth(1);
+    this.rightClickboard1 = this.add.text(125, 100, 'Remaining Ingredients', { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.riceR = this.add.sprite(150, 175, 'rice_dead').setScale(0.3).setDepth(1);
+    this.riceText = this.add.text(690, 175, 'Rice: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+
+    this.rightClickboard2 = this.add.text(125, 350, 'Remaining Stamina', { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.waterR = this.add.sprite(150, 425, 'water_bullet').setScale(0.5).setDepth(1);
+    this.waterText = this.add.text(690, 425, 'Water: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+    this.fireR = this.add.sprite(150, 500, 'fireSingle').setScale(0.3).setDepth(1);
+    this.fireText = this.add.text(690, 500, 'Fire: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+
+    this.Bar1 = this.add.sprite(420, 175,'Bar').setDepth(2);
+    //this.Bar2 = this.add.sprite(420, 250,'Bar').setDepth(2);
+    //this.Bar3 = this.add.sprite(420, 325,'Bar').setDepth(2);
+    this.Bar4 = this.add.sprite(420, 425,'Bar').setDepth(2);
+    this.Bar5 = this.add.sprite(420, 500,'Bar').setDepth(2);
+    this.riceBar = this.add.sprite(420, 175,'riceBar').setDepth(1);
+    //this.eggBar = this.add.sprite(420, 250,'eggBar').setDepth(1);
+    this.waterBar = this.add.sprite(420, 425,'waterBar').setDepth(1);
+    this.fireBar = this.add.sprite(420, 500,'fireBar').setDepth(1);
+
     this.initialEnemy = 30;
 
     // create a array
@@ -240,6 +255,9 @@ export default class Level1Scene extends Phaser.Scene {
     this.riceText.setText("Rice: " + this.count);
     this.waterText.setText("Water: " + this.waterCount);
     this.fireText.setText("Fire: " + (7 - this.fires));
+    this.riceBar.setScale(this.count/30, 1).setX(420 - this.riceBar.width/2 + this.riceBar.displayWidth/2);
+    this.waterBar.setScale(this.waterCount/10, 1).setX(420 - this.waterBar.width/2 + this.waterBar.displayWidth/2);
+    this.fireBar.setScale((7 - this.fires)/7, 1).setX(420 - this.fireBar.width/2 + this.fireBar.displayWidth/2);
 
     // collision for water bullets
     this.set_proj_collision(this.water_bullets, this.rice)
@@ -345,7 +363,7 @@ export default class Level1Scene extends Phaser.Scene {
     var rice_single = this.rice_dead.get();
     if (rice_single) {
       rice_single
-        .enableBody(true, 1920/2+200*Math.random()*this.get_random_sign(), 240+70*Math.random()*this.get_random_sign(), true, true)
+        .enableBody(true, 1400+200*Math.random()*this.get_random_sign(), 240+70*Math.random()*this.get_random_sign(), true, true)
         .setScale(0.3)
         .setDepth(1);
     }

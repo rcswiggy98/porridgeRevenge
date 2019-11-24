@@ -112,8 +112,6 @@ export default class PickLevel extends Phaser.Scene {
         break;
       case 3: 
         this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star3').setScale(0.2);
-        this.level2.disableInteractive();
-        this.level2 = this.add.image(this.centerX, this.centerY+200, 'soupLock').setScale(0.6);
         break;
     }
     switch(this.registry.get('level_3_hs')) {
@@ -123,8 +121,6 @@ export default class PickLevel extends Phaser.Scene {
         break;
       case 3: 
         this.star3 = this.add.image(this.centerX+400, this.centerY+300, 'star3').setScale(0.2);
-        this.level3.disableInteractive();
-        this.level3 = this.add.image(this.centerX+400, this.centerY+200, 'soupLock').setScale(0.6);
         break;
     }
   }

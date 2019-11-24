@@ -485,12 +485,12 @@ export default class Level4 extends Phaser.Scene {
         //console.log(this.chop_time)
       }
       if (this.chop_time == 10){
-        this.upgrade = this.physics.add.sprite(300, 16, "upgrade").setScale(0.2).setDepth(1);
+        this.upgrade = this.physics.add.sprite(300, 16, "upgrade").setScale(0.2).setDepth(3);
         this.upgrade.setBounce(1);
         this.upgrade.setCollideWorldBounds(true);
         this.upgrade.setVelocity(Phaser.Math.Between(-200, 200), 20);
         this.upgrade.setGravityY(100);
-        this.upgradeK = this.physics.add.sprite(300, 16, "upgradeK").setScale(0.2).setDepth(1);
+        this.upgradeK = this.physics.add.sprite(300, 16, "upgradeK").setScale(0.2).setDepth(3);
         this.upgradeK.setBounce(1);
         this.upgradeK.setCollideWorldBounds(true);
         this.upgradeK.setVelocity(Phaser.Math.Between(-200, 200), 20);

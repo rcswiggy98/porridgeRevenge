@@ -100,7 +100,7 @@ export default class LevelT extends Phaser.Scene {
     const clickboard = this.add.sprite(500, 325 , 'clickboard2').setScale(1.1).setDepth(1);
     const pot = this.add.sprite(1400, 300 , 'pot').setScale(0.8).setDepth(1);
     this.fire = this.add.sprite(1400, 500, 'fire').setScale(0.8).setDepth(1);
-    this.mouse = this.add.sprite(280, 480, 'mouse').setScale(0.4).setDepth(1);
+    this.mouse = this.add.sprite(300, 480, 'mouse').setScale(0.4).setDepth(1);
     this.wasd = this.add.sprite(200, 270, 'wasd').setScale(0.4).setDepth(1);
     this.space = this.add.sprite(360, 294, 'space').setScale(0.4).setDepth(1);
 
@@ -112,23 +112,23 @@ export default class LevelT extends Phaser.Scene {
     this.fires = 0;
     this.initialEnemy = 30;
 
-    this.riceR = this.add.sprite(525, 250, 'rice_dead').setScale(0.2).setDepth(1);
-    this.eggR = this.add.sprite(525, 300, 'egg_dead').setScale(0.15).setDepth(1);
-    this.waterR = this.add.sprite(525, 490, 'water_bullet').setScale(0.4).setDepth(1);
-    this.fireR = this.add.sprite(525, 540, 'fireSingle').setScale(0.2).setDepth(1);
-    this.Bar1 = this.add.sprite(725, 250,'Bar').setDepth(2).setScale(0.75);
-    this.Bar2 = this.add.sprite(725, 300,'Bar').setDepth(2).setScale(0.75);
-    this.Bar4 = this.add.sprite(725, 490,'Bar').setDepth(2).setScale(0.75);
-    this.Bar5 = this.add.sprite(725, 540,'Bar').setDepth(2).setScale(0.75);
-    this.riceBar = this.add.sprite(725, 250,'riceBar').setDepth(1).setScale(0.75);
-    this.eggBar = this.add.sprite(725, 300,'eggBar').setDepth(1).setScale(0.75);
-    this.waterBar = this.add.sprite(725, 490,'waterBar').setDepth(1).setScale(0.75);
-    this.fireBar = this.add.sprite(725, 540,'fireBar').setDepth(1).setScale(0.75);
+    this.riceR = this.add.sprite(520, 250, 'rice_dead').setScale(0.2).setDepth(1);
+    this.eggR = this.add.sprite(520, 300, 'egg_dead').setScale(0.15).setDepth(1);
+    this.waterR = this.add.sprite(520, 490, 'water_bullet').setScale(0.4).setDepth(1);
+    this.fireR = this.add.sprite(520, 540, 'fireSingle').setScale(0.2).setDepth(1);
+    this.Bar1 = this.add.sprite(720, 250,'Bar').setDepth(2).setScale(0.75);
+    this.Bar2 = this.add.sprite(720, 300,'Bar').setDepth(2).setScale(0.75);
+    this.Bar4 = this.add.sprite(720, 490,'Bar').setDepth(2).setScale(0.75);
+    this.Bar5 = this.add.sprite(720, 540,'Bar').setDepth(2).setScale(0.75);
+    this.riceBar = this.add.sprite(720, 250,'riceBar').setDepth(1).setScale(0.75);
+    this.eggBar = this.add.sprite(720, 300,'eggBar').setDepth(1).setScale(0.75);
+    this.waterBar = this.add.sprite(720, 490,'waterBar').setDepth(1).setScale(0.75);
+    this.fireBar = this.add.sprite(720, 540,'fireBar').setDepth(1).setScale(0.75);
 
-    this.riceText = this.add.text(110, 335, 'Left click to chop\nlarge ingredients', { fontFamily:'indie_flower', fontSize: '32px', fill: '#000000' }).setDepth(1);
-    this.eggText = this.add.text(510, 115, 'Ingredient bar tells you\n how many of them are\n in the level', { fontFamily:'indie_flower', fontSize: '32px', fill: '#000000' }).setDepth(1);
-    this.dText = this.add.text(510, 340, 'Stamina Bar shows\nyour current stamina\nGame over if you run\nout any of those', {  fontFamily:'indie_flower',fontSize: '32px', fill: '#000000' }).setDepth(1);
-    this.tText = this.add.text(110, 115, "'A' and 'D' to move\nthe faucet,'SPACE'\nto shoot water", { fontFamily:'indie_flower', fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.riceText = this.add.text(105, 325, 'Left click to chop large\ningredients', { fontFamily:'indie_flower', fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.eggText = this.add.text(510, 110, 'Ingredient bar tells you how\n many of them are in the level', { fontFamily:'indie_flower', fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.dText = this.add.text(510, 340, 'Stamina Bar shows current\n remaining stamina\nGame over if either runs out', {  fontFamily:'indie_flower',fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.tText = this.add.text(110, 115, "'A' and 'D' to move faucet\n'SPACE'to shoot water", { fontFamily:'indie_flower', fontSize: '32px', fill: '#000000' }).setDepth(1);
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed
 

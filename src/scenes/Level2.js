@@ -99,26 +99,26 @@ export default class Level2 extends Phaser.Scene {
     // scoring
     this.score = 0;
 
-    this.rightClickboard1 = this.add.text(125, 100, 'Remaining Ingredients', { fontSize: '40px', fill: '#000000' }).setDepth(1);
-    this.riceR = this.add.sprite(150, 175, 'rice_dead').setScale(0.3).setDepth(1);
-    this.riceText = this.add.text(690, 175, 'Rice: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
-    this.eggR = this.add.sprite(150, 250, 'egg_dead').setScale(0.2).setDepth(1);
-    this.eggText = this.add.text(690, 250, 'Egg: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+    this.rightClickboard1 = this.add.text(125, 100, 'Remaining Ingredients', {fontFamily:'indie_flower', fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.riceR = this.add.sprite(150, 185, 'rice_dead').setScale(0.3).setDepth(1);
+    this.riceText = this.add.text(690, 175, 'Rice: ', {fontFamily:'indie_flower', fontSize: '30px', fill: '#000000' }).setDepth(1);
+    this.eggR = this.add.sprite(150, 260, 'egg_dead').setScale(0.2).setDepth(1);
+    this.eggText = this.add.text(690, 250, 'Egg: ', {fontFamily:'indie_flower', fontSize: '30px', fill: '#000000' }).setDepth(1);
 
-    this.rightClickboard2 = this.add.text(125, 350, 'Remaining Stamina', { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.rightClickboard2 = this.add.text(125, 340, 'Remaining Stamina', {fontFamily:'indie_flower', fontSize: '40px', fill: '#000000' }).setDepth(1);
     this.waterR = this.add.sprite(150, 425, 'water_bullet').setScale(0.5).setDepth(1);
-    this.waterText = this.add.text(690, 425, 'Water: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+    this.waterText = this.add.text(690, 425, 'Water: ', {fontFamily:'indie_flower', fontSize: '30px', fill: '#000000' }).setDepth(1);
     this.fireR = this.add.sprite(150, 500, 'fireSingle').setScale(0.3).setDepth(1);
-    this.fireText = this.add.text(690, 500, 'Fire: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+    this.fireText = this.add.text(690, 500, 'Fire: ', {fontFamily:'indie_flower', fontSize: '30px', fill: '#000000' }).setDepth(1);
     //this.tText = this.add.text(105, 100, "Target Ingredients", { fontSize: '40px', fill: '#000000' }).setDepth(1);
 
-    this.Bar1 = this.add.sprite(420, 175,'Bar').setDepth(2);
-    this.Bar2 = this.add.sprite(420, 250,'Bar').setDepth(2);
+    this.Bar1 = this.add.sprite(420, 185,'Bar').setDepth(2);
+    this.Bar2 = this.add.sprite(420, 260,'Bar').setDepth(2);
     //this.Bar3 = this.add.sprite(420, 325,'Bar').setDepth(2);
     this.Bar4 = this.add.sprite(420, 425,'Bar').setDepth(2);
     this.Bar5 = this.add.sprite(420, 500,'Bar').setDepth(2);
-    this.riceBar = this.add.sprite(420, 175,'riceBar').setDepth(1);
-    this.eggBar = this.add.sprite(420, 250,'eggBar').setDepth(1);
+    this.riceBar = this.add.sprite(420, 185,'riceBar').setDepth(1);
+    this.eggBar = this.add.sprite(420, 260,'eggBar').setDepth(1);
     this.waterBar = this.add.sprite(420, 425,'waterBar').setDepth(1);
     this.fireBar = this.add.sprite(420, 500,'fireBar').setDepth(1);
 

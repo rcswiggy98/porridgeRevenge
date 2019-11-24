@@ -95,7 +95,7 @@ export default class LevelT extends Phaser.Scene {
 
     const stove = this.add.sprite(1400, 375 , 'stove');
     const board = this.add.sprite(1920 / 2, 900 , 'board');
-    this.riceText = this.add.text(1200, 1000, 'Press "0" to skip', { fontSize: '64px', fill: '#000000' }).setDepth(1);
+    this.riceText = this.add.text(1200, 1000, 'Press "0" to skip', { fontFamily:'indie_flower',fontSize: '64px', fill: '#000000' }).setDepth(1);
     //const clickboard1 = this.add.sprite(1920 / 6, 325 , 'clickboard1').setScale(1.1).setDepth(1);
     const clickboard = this.add.sprite(500, 325 , 'clickboard2').setScale(1.1).setDepth(1);
     const pot = this.add.sprite(1400, 300 , 'pot').setScale(0.8).setDepth(1);
@@ -125,10 +125,10 @@ export default class LevelT extends Phaser.Scene {
     this.waterBar = this.add.sprite(725, 490,'waterBar').setDepth(1).setScale(0.75);
     this.fireBar = this.add.sprite(725, 540,'fireBar').setDepth(1).setScale(0.75);
 
-    this.riceText = this.add.text(110, 335, 'Left click to chop\nlarge ingredients', { fontSize: '32px', fill: '#000000' }).setDepth(1);
-    this.eggText = this.add.text(510, 115, 'Ingredient bar tells\nyou how many of them\nare in the level', { fontSize: '32px', fill: '#000000' }).setDepth(1);
-    this.dText = this.add.text(510, 340, 'Stamina Bar shows\nyour current stamina\nGame over if you run\nout any of those', { fontSize: '32px', fill: '#000000' }).setDepth(1);
-    this.tText = this.add.text(110, 115, "'A' and 'D' to move\nthe faucet,'SPACE'\nto shoot water", { fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.riceText = this.add.text(110, 335, 'Left click to chop\nlarge ingredients', { fontFamily:'indie_flower', fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.eggText = this.add.text(510, 115, 'Ingredient bar tells you\n how many of them are\n in the level', { fontFamily:'indie_flower', fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.dText = this.add.text(510, 340, 'Stamina Bar shows\nyour current stamina\nGame over if you run\nout any of those', {  fontFamily:'indie_flower',fontSize: '32px', fill: '#000000' }).setDepth(1);
+    this.tText = this.add.text(110, 115, "'A' and 'D' to move\nthe faucet,'SPACE'\nto shoot water", { fontFamily:'indie_flower', fontSize: '32px', fill: '#000000' }).setDepth(1);
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed
 

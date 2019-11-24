@@ -7,6 +7,14 @@ export default class BootScene extends Phaser.Scene {
 
   init (data) {
     // Initialization code goes here
+
+    //  Inject our CSS
+    var element = document.createElement('style');
+    document.head.appendChild(element);
+    var sheet = element.sheet;
+    var styles = '@font-face { font-family: "indie_flower"; src: url("assets/Font/IndieFlower.otf") format("opentype"); }\n';
+    sheet.insertRule(styles, 0);
+
   }
 
   preload () {
@@ -19,6 +27,9 @@ export default class BootScene extends Phaser.Scene {
 
     // 1.1 load sounds in both formats mp3 and ogg
     this.load.audio("background", ["assets/sounds/background.mp3"]);
+
+    // load webfont
+    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
   }
 
   create (data) {
@@ -40,6 +51,20 @@ export default class BootScene extends Phaser.Scene {
 
     // Create the scene and add text
     var background = this.add.image(this.centerX, this.centerY, 'ui');
+
+    // preload the font
+    var add = this.add;
+    var input = this.input;
+
+    WebFont.load({
+      custom: {
+        families: [ 'indie_flower' ]
+      },
+      active: function ()
+      {
+        add.text(0, 0, '.', { fontFamily: 'indie_flower', fontSize: 1, color: '#ff0000' });
+      }
+    });
 
     // Add scoring keys to registry
     this.registry.set({level_1_hs: 0, level_2_hs: 0, level_3_hs: 0})

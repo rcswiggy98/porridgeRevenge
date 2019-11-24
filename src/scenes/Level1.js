@@ -71,22 +71,22 @@ export default class Level1Scene extends Phaser.Scene {
     this.score = 0;
     this.waterCount = 10
 
-    this.rightClickboard1 = this.add.text(125, 100, 'Remaining Ingredients', { fontSize: '40px', fill: '#000000' }).setDepth(1);
-    this.riceR = this.add.sprite(150, 175, 'rice_dead').setScale(0.3).setDepth(1);
-    this.riceText = this.add.text(690, 175, 'Rice: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+    this.rightClickboard1 = this.add.text(125, 130, 'Remaining Ingredients', { fontFamily:'indie_flower',fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.riceR = this.add.sprite(150, 230, 'rice_dead').setScale(0.3).setDepth(1);
+    this.riceText = this.add.text(690, 215, 'Rice: ', { fontFamily:'indie_flower',fontSize: '30px', fill: '#000000' }).setDepth(1);
 
-    this.rightClickboard2 = this.add.text(125, 350, 'Remaining Stamina', { fontSize: '40px', fill: '#000000' }).setDepth(1);
+    this.rightClickboard2 = this.add.text(125, 340, 'Remaining Stamina', { fontFamily:'indie_flower',fontSize: '40px', fill: '#000000' }).setDepth(1);
     this.waterR = this.add.sprite(150, 425, 'water_bullet').setScale(0.5).setDepth(1);
-    this.waterText = this.add.text(690, 425, 'Water: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+    this.waterText = this.add.text(690, 410, 'Water: ', { fontFamily:'indie_flower',fontSize: '30px', fill: '#000000' }).setDepth(1);
     this.fireR = this.add.sprite(150, 500, 'fireSingle').setScale(0.3).setDepth(1);
-    this.fireText = this.add.text(690, 500, 'Fire: ', { fontSize: '30px', fill: '#000000' }).setDepth(1);
+    this.fireText = this.add.text(690, 490, 'Fire: ', { fontFamily:'indie_flower',fontSize: '30px', fill: '#000000' }).setDepth(1);
 
-    this.Bar1 = this.add.sprite(420, 175,'Bar').setDepth(2);
+    this.Bar1 = this.add.sprite(420, 230,'Bar').setDepth(2);
     //this.Bar2 = this.add.sprite(420, 250,'Bar').setDepth(2);
     //this.Bar3 = this.add.sprite(420, 325,'Bar').setDepth(2);
     this.Bar4 = this.add.sprite(420, 425,'Bar').setDepth(2);
     this.Bar5 = this.add.sprite(420, 500,'Bar').setDepth(2);
-    this.riceBar = this.add.sprite(420, 175,'riceBar').setDepth(1);
+    this.riceBar = this.add.sprite(420, 230,'riceBar').setDepth(1);
     //this.eggBar = this.add.sprite(420, 250,'eggBar').setDepth(1);
     this.waterBar = this.add.sprite(420, 425,'waterBar').setDepth(1);
     this.fireBar = this.add.sprite(420, 500,'fireBar').setDepth(1);

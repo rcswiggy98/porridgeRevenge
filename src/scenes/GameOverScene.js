@@ -26,7 +26,7 @@ export default class GameOverScene extends Phaser.Scene {
 
     //Create the scene and add text
     var logo = this.add.image(this.centerX, this.centerY, 'gameOver');
-    var text = this.add.text(this.centerX-400, this.centerY+300, "Press 0 to main menu", {fontSize:60})
+    var text = this.add.text(this.centerX-400, this.centerY+300, "Press 0 to main menu", {fontFamily: "indie_flower", fontSize:80})
 
   }
 

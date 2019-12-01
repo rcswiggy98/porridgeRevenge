@@ -60,6 +60,7 @@ export default class Level2 extends Phaser.Scene {
     this.load.image('eggBar', "./assets/UI/eggBar.png");
     this.load.image('waterBar', "./assets/UI/waterBar.png");
     this.load.image('fireBar', "./assets/UI/fireBar.png");
+    this.load.image('pause', "./assets/UI/pause.png");
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
@@ -74,7 +75,8 @@ export default class Level2 extends Phaser.Scene {
   create (data) {
     // Add event listeners
     ChangeScene.addSceneEventListeners(this);
-
+    this.scene.launch("Pause2");
+    this.scene.sleep();
     // set world boundary
     this.physics.world.setBounds(0, 0, 1920, 1080);
 
@@ -87,6 +89,12 @@ export default class Level2 extends Phaser.Scene {
     const pot = this.add.sprite(1400, 300 , 'pot').setScale(0.8).setDepth(1);
     this.fire = this.add.sprite(1400, 500, 'fire').setScale(0.8).setDepth(1);
 
+    this.pause = this.add.image(1880, 100, 'pause').setScale(1).setInteractive();
+    this.pause.on("pointerup",function(){
+      this.scene.launch("Pause2");
+      this.scene.sleep();
+    }, this
+    );
     // add faucet
     this.faucet = this.physics.add.sprite(1920/2, 1080, 'faucet');
     this.faucet.setScale(0.5);

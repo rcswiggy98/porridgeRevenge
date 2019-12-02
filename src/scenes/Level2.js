@@ -356,6 +356,7 @@ export default class Level2 extends Phaser.Scene {
     var speed = 2;
     // firing rate for faucet in miliseconds
     var frate_faucet = 500;
+    var chop_knife = 1000;
 
     // collision for water bullets
     this.set_proj_collision_rice(this.water_bullets, this.rice)
@@ -423,8 +424,12 @@ export default class Level2 extends Phaser.Scene {
     this.knife.x = X
     this.knife.y = Y
     if (pointer.isDown && ~this.tw.isPlaying()) {
-      this.tw.play();
-      this.chop.play();
+      var mod_time1 = Phaser.Math.Wrap(time, 0, 5000)
+      if (Phaser.Math.Difference(mod_time1,this.knife_lctime) > chop_knife) {
+        this.knife_lctime = Phaser.Math.Wrap(time, 0, 5000);
+        this.tw.play();
+        this.chop.play();
+      }
     }
   }
 

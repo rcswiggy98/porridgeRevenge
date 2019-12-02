@@ -74,8 +74,8 @@ export default class PickLevel extends Phaser.Scene {
   }
 
   update (time, delta) {
-    // level lock until player gets a star on previous levels 
-    var level_2_unlock = this.registry.get('level_1_hs') > 0; 
+    // level lock until player gets a star on previous levels
+    var level_2_unlock = this.registry.get('level_1_hs') > 0;
     var level_3_unlock = this.registry.get('level_1_hs') > 0 && this.registry.get('level_2_hs') > 0;
 
     if (level_2_unlock) {
@@ -85,7 +85,7 @@ export default class PickLevel extends Phaser.Scene {
         this.scene.start("Level2");
       }, this
       );
-    } 
+    }
     if (level_3_unlock) {
       this.level3Lock.destroy()
       this.level3 = this.add.image(this.centerX+400, this.centerY+200, 'soup3').setScale(0.6).setInteractive()
@@ -94,23 +94,23 @@ export default class PickLevel extends Phaser.Scene {
       }, this
       );
     }
-    
+
     // add stars
     switch(this.registry.get('level_1_hs')) {
       case 1: this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star1').setScale(0.2);
         break;
       case 2: this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star2').setScale(0.2);
         break;
-      case 3: 
+      case 3:
         this.star1 = this.add.image(this.centerX-430, this.centerY+300, 'star3').setScale(0.2);
         break;
     }
-    switch(this.registry.get('level_2_hs')) { 
+    switch(this.registry.get('level_2_hs')) {
       case 1: this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star1').setScale(0.2);
         break;
       case 2: this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star2').setScale(0.2);
         break;
-      case 3: 
+      case 3:
         this.star2 = this.add.image(this.centerX-35, this.centerY+300, 'star3').setScale(0.2);
         break;
     }
@@ -119,7 +119,7 @@ export default class PickLevel extends Phaser.Scene {
         break;
       case 2: this.star3 = this.add.image(this.centerX+400, this.centerY+300, 'star2').setScale(0.2);
         break;
-      case 3: 
+      case 3:
         this.star3 = this.add.image(this.centerX+400, this.centerY+300, 'star3').setScale(0.2);
         break;
     }

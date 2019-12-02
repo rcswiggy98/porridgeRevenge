@@ -166,6 +166,7 @@ export default class Level4 extends Phaser.Scene {
     // this.eggBottomView = this.add.sprite(360, 450, 'egg_bottom_dead').setScale(0.6).setDepth(1);
     // this.hamView = this.add.sprite(360, 300,'ham_slice_dead').setScale(0.6).setDepth(1);
     this.faster_bullet = false;
+    this.bigger_knife = false;
     // dictionary to keep track of score, add enemy types as needed
     // '_total' is just a bound method that gets the amount of all enemies killed
 
@@ -612,7 +613,7 @@ export default class Level4 extends Phaser.Scene {
       water_bullet.setAngle(180);
       water_bullet
         .enableBody(true, this.faucet.x, this.faucet.y, true, true)
-        .setVelocityY(-600)
+        .setVelocityY(-900)
         .setDepth(1);
       this.water.play();
       this.waterCount -= 1;

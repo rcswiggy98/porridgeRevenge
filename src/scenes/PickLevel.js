@@ -78,7 +78,7 @@ export default class PickLevel extends Phaser.Scene {
     var level_2_unlock = this.registry.get('level_1_hs') > 0;
     var level_3_unlock = this.registry.get('level_1_hs') > 0 && this.registry.get('level_2_hs') > 0;
 
-    if (true) {
+    if (level_2_unlock) {
       this.level2Lock.destroy()
       this.level2 = this.add.image(this.centerX, this.centerY+200, 'soup2').setScale(0.6).setInteractive()
       this.level2.on("pointerup",function(){
